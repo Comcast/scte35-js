@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "declaration": true,
+    "inlineSourceMap": false,
+    "module": "ES6",
+    "moduleResolution": "node",
+    "noImplicitAny": true,
+    "noUnusedParameters": true,
+    "sourceMap": true,
+    "strict": true,
+    "strictNullChecks": true,
+    "strictPropertyInitialization": true,
+    "target": "ES6",
+    "typeRoots" : ["types", "node_modules/@types"]
+  },
+  "exclude": [
+    "node_modules"
+  ]
+}

@@ -1,0 +1,172 @@
+/**
+ * Copyright 2018 Comcast Cable Communications Management, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or   implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+export const enum SpliceDescriptorTag {
+    AVAIL_DESCRIPTOR        = 0x00,
+    DTMF_DESCRIPTOR         = 0x01,
+    SEGMENTATION_DESCRIPTOR = 0x02,
+    TIME_DESCRIPTOR         = 0x03,
+    // RESERVED 0x04 - 0xFF
+}
+
+export interface ISpliceDescriptorBase {
+    spliceDescriptorTag: SpliceDescriptorTag;
+    descriptorLength: number;
+    indentifier: string; // CUEI
+}
+
+/**
+ * 10.3.1 avail_descriptor()
+ */
+export interface IAvailDescriptor extends ISpliceDescriptorBase {
+    providerAvailId: number;
+}
+
+/**
+ * 10.3.2 DTMF_descriptor()
+ */
+export interface IDTMFDescriptor extends ISpliceDescriptorBase {
+    preroll: number;
+    dtmfCount: number;
+    dtmfChar: string[];
+}
+
+/**
+ * Table 21 segmentation_upid_type
+ */
+export const enum SegmentationUpidType {
+    NOT_USED     = 0x00,
+    USER_DEFINED = 0x01,
+    ISCI         = 0x02,
+    AD_ID        = 0x03,
+    UMID         = 0x04,
+    ISAN         = 0x05, // Deprecated
+    VISAN        = 0x06,
+    TID          = 0x07,
+    TI           = 0x08,
+    ADI          = 0x09,
+    EIDR         = 0x0A,
+    ATSC         = 0x0B,
+    MPU          = 0x0C,
+    MID          = 0x0D,
+    ADS          = 0x0E,
+    URI          = 0x0F,
+}
+
+export const enum SegmentationTypeId {
+    NOT_INDICATED                           = 0x00,
+    CONTENT_IDENTIFICATION                  = 0x01,
+    PROGRAM_START                           = 0x10,
+    PROGRAM_END                             = 0x11,
+    PROGRAM_EARLY_TERMINATION               = 0x12,
+    PROGRAM_BREAKAWAY                       = 0x13,
+    PROGRAM_RESUMPTION                      = 0x14,
+    PROGRAM_RUNOVER_PLANNED                 = 0x15,
+    PROGRAM_RUNOVER_UNPLANNED               = 0x16,
+    PROGRAM_OVERLAP_START                   = 0x17,
+    PROGRAM_BLACKOUT_OVERRIDE               = 0x18,
+    PROGRAM_START_IN_PROGRESS               = 0x19,
+    CHAPTER_START                           = 0x20,
+    CHAPTER_END                             = 0x21,
+    PROVIDER_ADVERTISEMENT_START            = 0x30,
+    PROVIDER_ADVERTISEMENT_END              = 0x31,
+    DISTRIBUTOR_ADVERTISEMENT_START         = 0x32,
+    DISTRIBUTOR_ADVERTISEMENT_END           = 0x33,
+    PROVIDER_PLACEMENT_OPPORTUNITY_START    = 0x34,
+    PROVIDER_PLACEMENT_OPPORTUNITY_END      = 0x35,
+    DISTRIBUTOR_PLACEMENT_OPPORTUNITY_START = 0x36,
+    DISTRIBUTOR_PLACEMENT_OPPORTUNITY_END   = 0x37,
+    UNSCHEDULED_EVENT_START                 = 0x40,
+    UNSCHEDULED_EVENT_END                   = 0x41,
+    NETWORK_START                           = 0x50,
+    NETWORK_END                             = 0x51,
+}
+
+/**
+ * 10.3.3 Segmentation_descriptor()
+ */
+export interface ISegmentationDescriptor extends ISpliceDescriptorBase {
+    segmentationEventId: number;
+    segmentationEventCancelIndicator: boolean;
+    programSegmentationFlag?: boolean;
+    segmentationDurationFlag?: boolean;
+    deliveryNotRestrictedFlag?: boolean;
+    webDeliveryAllowedFlag?: boolean;
+    noRegionalBlackoutFlag?: boolean;
+    deviceResctrictions?: number;
+    componentCount?: number;
+    // component Tag, pts_offset
+    segmentationDuration?: number;
+    segmentationUpidType?: SegmentationUpidType;
+    segmentationUpidLength?: number;
+    segmentationUpid?: any; //TODO: Need a type here where we can put upid subclasses
+    segmentationTypeId?: SegmentationTypeId;
+    segmentNum?: number;
+    segmentsExpected?: number;
+    subSegmentNum?: number;
+    subSegmentsExpected?: number;
+}
+
+/**
+ * 10.3.4 time_descriptor()
+ */
+export interface ITimeDescriptor extends ISpliceDescriptorBase {
+    taiSeconds: number;
+    taiNs: number;
+    utcOffset: number;
+}
+
+export type ISpliceDescriptor = IAvailDescriptor | IDTMFDescriptor | ISegmentationDescriptor | ITimeDescriptor;
+
+
+/**
+ * 10.2 splice_descriptor()
+ *
+ * NOTE(estobbart): This only supports the base descriptor parsing,
+ * Additional payload of the descriptor is handled at the SpliceInfoSection
+ * level.
+ */
+const spliceDescriptor = (view: DataView): ISpliceDescriptor => {
+    const descriptor = {} as ISpliceDescriptor;
+    let offset = 0;
+    descriptor.spliceDescriptorTag = view.getUint8(offset++);
+    descriptor.descriptorLength = view.getUint8(offset++);
+    descriptor.indentifier = "";
+    while (descriptor.indentifier.length < 4) {
+        descriptor.indentifier += String.fromCharCode(view.getUint8(offset++));
+    }
+
+    return descriptor;
+};
+
+// TODO: is it possible there's more than one??
+export const parseDescriptors = (view: DataView): ISpliceDescriptor[] => {
+    const descriptor = spliceDescriptor(view);
+
+    // TODO: parse out the descriptors appropriately using descriptor methods
+    if (descriptor.spliceDescriptorTag === SpliceDescriptorTag.AVAIL_DESCRIPTOR) {
+
+    } else if (descriptor.spliceDescriptorTag === SpliceDescriptorTag.DTMF_DESCRIPTOR) {
+
+    } else if (descriptor.spliceDescriptorTag === SpliceDescriptorTag.SEGMENTATION_DESCRIPTOR) {
+
+    } else if (descriptor.spliceDescriptorTag === SpliceDescriptorTag.TIME_DESCRIPTOR) {
+
+    }
+    return [descriptor];
+};
