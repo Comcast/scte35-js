@@ -10,7 +10,8 @@
   "scripts": {
     "clean": "rimraf dist",
     "pretest": "npm run clean && tsc --project ./test/tsconfig.json",
-    "test": "nyc mocha --require source-map-support/register --recursive ./dist/test/**/*.test.js --require ./util/dom-shim.js"
+    "test": "nyc mocha --require source-map-support/register --recursive ./dist/test/**/*.test.js --require ./util/dom-shim.js",
+    "print": "node ./scripts/cli.js"
   },
   "repository": {
     "type": "git",
@@ -18,7 +19,7 @@
   },
   "author": "Comcast VIPER",
   "contributors": [
-      "Eric Stobbart <eric_stobbart@comcast.com>"
+    "Eric Stobbart <eric_stobbart@comcast.com>"
   ],
   "license": "Apache-2.0",
   "bugs": {
@@ -28,11 +29,13 @@
   "devDependencies": {
     "@types/chai": "^4.1.7",
     "@types/mocha": "^5.2.5",
+    "@types/node": "^10.12.17",
     "chai": "^4.2.0",
     "mocha": "^5.2.0",
     "nyc": "^13.1.0",
     "rimraf": "^2.6.2",
     "source-map-support": "^0.5.9",
+    "ts-node": "^7.0.1",
     "typescript": "^3.2.2"
   },
   "dependencies": {}
