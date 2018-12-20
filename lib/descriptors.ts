@@ -46,6 +46,24 @@ export interface IDTMFDescriptor extends ISpliceDescriptorBase {
     dtmfChar: string[];
 }
 
+const enum CueDescriptorType {
+    SPLICE_INSERT_NULL_SCHEDULE = 0x00,
+    ALL_COMMANDS                = 0x01,
+    SEGMENTATION                = 0x02,
+    TIERED_SPLICING             = 0x03,
+    TIERED_SEGMENTATION         = 0x04,
+    // Reservered       0x05 - 0x7F
+    // User Defined     0x80 - 0xFF
+}
+/**
+ * 8.2 cue_identifier_descriptor
+ */
+export interface ICueIdentifierDescriptor {
+    descriptorTag: number;
+    descriptorLength: number;
+    cueStreamType: CueDescriptorType;
+}
+
 /**
  * Table 21 segmentation_upid_type
  */
@@ -153,6 +171,18 @@ const spliceDescriptor = (view: DataView): ISpliceDescriptor => {
 
     return descriptor;
 };
+
+/**
+ * cue_identifier_descriptor
+ */
+const cueIdentifierDescriptor = (view: DataView): ICueIdentifierDescriptor => {
+    const descriptor = {} as ICueIdentifierDescriptor;
+    let offset = 0;
+    descriptor.descriptorTag = view.getUint8(offset++);
+    descriptor.descriptorLength = view.getUint8(offset++);
+    descriptor.cueStreamType = view.getUint8(offset++);
+    return descriptor;
+}
 
 // TODO: is it possible there's more than one??
 export const parseDescriptors = (view: DataView): ISpliceDescriptor[] => {
