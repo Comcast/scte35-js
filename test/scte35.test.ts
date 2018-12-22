@@ -53,4 +53,11 @@ describe("SCTE35", () => {
         // TODO: expect
     });
 
+    it("should parse from hex", () => {
+        const base64 = "fc3046000113f09fa900fff00506fe000000000030022e4355454940012b817fbf091f5349474e414c3a386953773965516946567741414141414141414242413d3d370303689e9165";
+        const spliceInfo = scte35.SCTE35.parseFromHex(base64);
+        // Confirms that all 33 bits are read correctly
+        chai.expect(spliceInfo.ptsAdjustment).to.eq(4629503913);
+    });
+
 });
