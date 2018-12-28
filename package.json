@@ -11,7 +11,7 @@
     "clean": "rimraf dist",
     "pretest": "npm run clean && tsc --project ./test/tsconfig.json",
     "test": "nyc mocha --require source-map-support/register --recursive ./dist/test/**/*.test.js --require ./util/dom-shim.js",
-    "print": "node ./scripts/cli.js"
+    "parse": "node ./scripts/cli.js"
   },
   "repository": {
     "type": "git",

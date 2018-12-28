@@ -204,8 +204,7 @@ const THIRTY_TWO_BIT_SHIFT = Math.pow(2, 32);
 
 export interface ISCTE35 {
     parseFromB64: (b64: string) => ISpliceInfoSection;
-
-    // TODO: parseFromHex: (hex: string) => ISpliceInfoSection;
+    parseFromHex: (hex: string) => ISpliceInfoSection;
 }
 
 export const SCTE35: ISCTE35 = Object.create(null) as ISCTE35;
@@ -243,9 +242,9 @@ export interface ISpliceInfoSection {
     crc: number;
 }
 
-SCTE35.parseFromB64 = (b64: string): ISpliceInfoSection => {
+const parseSCTE35Data = (bytes: Uint8Array): ISpliceInfoSection => {
     const sis = {} as ISpliceInfoSection;
-    const bytes = Uint8Array.from(atob(b64).split("").map((c) => c.charCodeAt(0)));
+
     const view = new DataView(bytes.buffer);
     let offset = 0;
 
@@ -316,4 +315,15 @@ SCTE35.parseFromB64 = (b64: string): ISpliceInfoSection => {
     }
 
     return sis;
+}
+
+SCTE35.parseFromB64 = (b64: string): ISpliceInfoSection => {
+    const bytes = Uint8Array.from(atob(b64).split("").map((c) => c.charCodeAt(0)));
+    return parseSCTE35Data(bytes);
+}
+
+SCTE35.parseFromHex = (hex: string): ISpliceInfoSection => {
+    const octets = hex.match(/[a-f\d]{2}/gi) || [];
+    const bytes = Uint8Array.from(octets.map((octet) => parseInt(octet, 16)));
+    return parseSCTE35Data(bytes);
 }
