@@ -12,11 +12,11 @@ require('ts-node').register({
 
 require("../util/dom-shim.js");
 
-const scte35 = require("../lib/scte35");
+const SCTE35 = require("../lib/scte35").SCTE35;
 
 if (process.argv.length < 2) {
     throw new Error(" TODO: usage... ");
 }
 
 // TODO: support for --hex or --b64
-console.log(JSON.stringify(scte35.SCTE35.parseFromB64(process.argv[2]), null, 4));
+console.log(JSON.stringify(SCTE35.parseFromB64(process.argv[2]), null, 4));
