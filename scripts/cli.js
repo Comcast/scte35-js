@@ -11,6 +11,7 @@ require('ts-node').register({
 });
 
 require("../util/dom-shim.js");
+console.log('Content to be parsed',process.argv[2])
 
 const scte35 = require("../lib/scte35");
 
