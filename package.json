@@ -1,6 +1,6 @@
 {
   "name": "scte35",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "",
   "main": "index.js",
   "directories": {
@@ -11,7 +11,8 @@
     "clean": "rimraf dist",
     "pretest": "npm run clean && tsc --project ./test/tsconfig.json",
     "test": "nyc mocha --require source-map-support/register --recursive ./dist/test/**/*.test.js --require ./util/dom-shim.js",
-    "parse": "node ./scripts/cli.js"
+    "parse": "node ./scripts/cli.js",
+    "build": "tsc"
   },
   "repository": {
     "type": "git",
