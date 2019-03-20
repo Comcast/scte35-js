@@ -2,6 +2,14 @@
 
 Support for SCTE35 parsing in either NodeJS or a "modern" browser.
 
+# Demo
+
+Visit https://comcast.github.io/scte35-js/ and paste the following in the text box and hit the `Parse` button:
+
+`/DBGAAET8J+pAP/wBQb+AAAAAAAwAi5DVUVJQAErgX+/CR9TSUdOQUw6OGlTdzllUWlGVndBQUFBQUFBQUJCQT09NwMDaJ6RZQ==`
+
+In order to deploy changes to the demo read the README found at https://github.com/Comcast/scte35-js/tree/master/ui.
+
 # CLI
 
 Currently supported via the source
