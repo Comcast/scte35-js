@@ -75,7 +75,7 @@ const spliceEvent = (event: SpliceEvent, view: DataView, tag: EventTag): number 
 
     if (event.programSpliceFlag) {
         if (tag === SpliceCommandType.SPLICE_INSERT && !(event as ISpliceInsertEvent).spliceImmediateFlag) {
-            const spliceTime = timeSignal(new DataView(view.buffer, offset, 5));
+            const spliceTime = timeSignal(new DataView(view.buffer, view.byteOffset + offset, 5));
             (event as ISpliceInsertEvent).spliceTime = spliceTime;
             offset++;
             if (spliceTime.specified) {
