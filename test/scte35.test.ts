@@ -60,4 +60,11 @@ describe("SCTE35", () => {
         chai.expect(spliceInfo.ptsAdjustment).to.eq(4629503913);
     });
 
+    it("should parse splice_insert correctly", () => {
+        const hex = "/DAlAAAAAAAAAP/wFAUAAqbVf+/+AAAAAH4AUmXAAAAAAAAAdIQsGg==";
+        const spliceInfo = scte35.SCTE35.parseFromB64(hex);
+        chai.expect((spliceInfo.spliceCommand as any).spliceTime.specified).to.eql(true);
+        chai.expect((spliceInfo.spliceCommand as any).breakDuration.duration).to.eql(5400000);
+    });
+
 });

@@ -75,7 +75,7 @@ const spliceEvent = (event: SpliceEvent, view: DataView, tag: EventTag): number 
 
     if (event.programSpliceFlag) {
         if (tag === SpliceCommandType.SPLICE_INSERT && !(event as ISpliceInsertEvent).spliceImmediateFlag) {
-            const spliceTime = timeSignal(new DataView(view.buffer, offset, 5));
+            const spliceTime = timeSignal(new DataView(view.buffer, view.byteOffset + offset, 5));
             (event as ISpliceInsertEvent).spliceTime = spliceTime;
             offset++;
             if (spliceTime.specified) {
@@ -144,7 +144,7 @@ const spliceSchedule = (view: DataView): ISpliceSchedule => {
 
     while (schedule.spliceEvents.length !== schedule.spliceCount) {
         const event = {} as ISpliceScheduleEvent;
-        offset += spliceEvent(event, new DataView(view.buffer, offset), SpliceCommandType.SPLICE_SCHEDULE);
+        offset += spliceEvent(event, new DataView(view.buffer, view.byteOffset + offset), SpliceCommandType.SPLICE_SCHEDULE);
         schedule.spliceEvents.push(event);
     }
     if (offset !== view.byteLength) {
@@ -267,7 +267,7 @@ const parseSCTE35Data = (bytes: Uint8Array): ISpliceInfoSection => {
     }
     // NOTE(estobb200): Can't shift JavaScript numbers above 32 bits
     sis.ptsAdjustment = (byte & 0x01) ? THIRTY_TWO_BIT_SHIFT : 0;
-    sis.ptsAdjustment += view.getUint32(offset)
+    sis.ptsAdjustment += view.getUint32(offset);
     offset += 4;
 
     sis.cwIndex = view.getUint8(offset++);
