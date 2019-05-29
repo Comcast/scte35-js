@@ -10,6 +10,19 @@ Visit https://comcast.github.io/scte35-js/ and paste the following in the text b
 
 In order to deploy changes to the demo read the README found at https://github.com/Comcast/scte35-js/tree/master/ui.
 
+# Import
+
+    // See ISCTE35 for methods & ISpliceInfoSection for results.
+    import { SCTE35 } from "scte35";
+
+or...
+
+    const SCTE35 = require("scte35").SCTE35;
+
+then...
+
+    const result = SCTE35.parseFromB64("<base64 string>");
+
 # CLI
 
 Currently supported via the source
@@ -19,7 +32,7 @@ Currently supported via the source
 
 ## TODO:
 - Turn these TODO's into tickets
-- Support for splice descriptors
+- Support for additional splice descriptors
 - Documentation on the methods and interfaces (jsdoc)
 - Published docs (in GH wiki maybe?)
 - Command line tool to run from bin as part of the package install
@@ -34,3 +47,6 @@ Currently supported via the source
 - Wire up to available CI tools
 - Create a UI wrapper to host (location TBD / github pages?)
 - Create awareness and advocate for this project in video communities
+- Ignore util directory from test coverage
+- Implement component count of the segmentation descriptor
+- Track down the older specs to confirm which versions this module supports

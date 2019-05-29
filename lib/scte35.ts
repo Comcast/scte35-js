@@ -17,6 +17,7 @@
  */
 
 import * as descriptors from "./descriptors";
+import * as util from "./util";
 
 export interface IBreakDuration {
     autoReturn: boolean;
@@ -98,6 +99,7 @@ const spliceEvent = (event: SpliceEvent, view: DataView, tag: EventTag): number 
             }
             (event as ISpliceScheduleEvent).utcSpliceComponents = utcSpliceComponents;
         } else {
+            console.warn("scte35-js TODO: support splice_insert");
             // TODO:.. support for the array in the SPLICE_INSERT
         }
 
@@ -109,7 +111,7 @@ const spliceEvent = (event: SpliceEvent, view: DataView, tag: EventTag): number 
         // 9.4.2 break_duration()
         event.breakDuration = {
             autoReturn: !!(byte & 0x80),
-            duration: ((byte & 0x01) ? THIRTY_TWO_BIT_SHIFT : 0) + view.getUint32(offset),
+            duration: ((byte & 0x01) ? util.THIRTY_TWO_BIT_MULTIPLIER : 0) + view.getUint32(offset),
         };
         offset += 4;
     }
@@ -148,7 +150,7 @@ const spliceSchedule = (view: DataView): ISpliceSchedule => {
         schedule.spliceEvents.push(event);
     }
     if (offset !== view.byteLength) {
-        console.error(`Bad read splice_schedule actual: ${offset} expected: ${view.byteLength}`);
+        console.error(`scte35-js Bad read splice_schedule actual: ${offset} expected: ${view.byteLength}`);
     }
     return schedule;
 };
@@ -170,7 +172,7 @@ const spliceInsert = (view: DataView): ISpliceInsertEvent => {
     const insert = {} as ISpliceInsertEvent;
     const offset = spliceEvent(insert, view, SpliceCommandType.SPLICE_INSERT);
     if (offset !== view.byteLength) {
-        console.error(`Bad read splice_insert actual: ${offset} expected: ${view.byteLength}`);
+        console.error(`scte35-js Bad read splice_insert actual: ${offset} expected: ${view.byteLength}`);
     }
     return insert;
 };
@@ -194,16 +196,20 @@ const timeSignal = (view: DataView): ISpliceTime => {
     const byte = view.getUint8(0);
     spliceTime.specified = !!(byte & 0x80);
     if (spliceTime.specified) {
-        spliceTime.pts = (byte & 0x01) ? THIRTY_TWO_BIT_SHIFT : 0;
+        spliceTime.pts = (byte & 0x01) ? util.THIRTY_TWO_BIT_MULTIPLIER : 0;
         spliceTime.pts += view.getUint32(1);
     }
     return spliceTime;
 };
 
-const THIRTY_TWO_BIT_SHIFT = Math.pow(2, 32);
-
 export interface ISCTE35 {
+    /**
+     * DASH as defined in SCTE 214-1 2016
+     * Data should be from the @schemeIdUri="urn:scte:scte35:2014:xml+bin"
+     * of an Signal.Binary element in the Event
+     */
     parseFromB64: (b64: string) => ISpliceInfoSection;
+
     parseFromHex: (hex: string) => ISpliceInfoSection;
 }
 
@@ -237,11 +243,12 @@ export interface ISpliceInfoSection {
     spliceCommandType: SpliceCommandType;
     spliceCommand: SpliceCommand;
     descriptorLoopLength: number;
-    descriptor?: descriptors.ISpliceDescriptor[];
+    descriptors?: descriptors.ISpliceDescriptor[];
     // alignmentStuffing: number; TODO:
     crc: number;
 }
 
+// Table 5 splice_info_section
 const parseSCTE35Data = (bytes: Uint8Array): ISpliceInfoSection => {
     const sis = {} as ISpliceInfoSection;
 
@@ -255,7 +262,9 @@ const parseSCTE35Data = (bytes: Uint8Array): ISpliceInfoSection => {
     sis.privateIndicator = !!(byte & 0x40);
     // const reserved = (byte & 0x03) >> 4;
     sis.sectionLength = ((byte & 0x0F) << 8) + view.getUint8(offset++);
-
+    if (sis.sectionLength + 3 !== bytes.byteLength) {
+        throw new Error(`Binary read error sectionLength: ${sis.sectionLength} + 3 !== data.length: ${bytes.byteLength}`);
+    }
 
     sis.protocolVersion = view.getUint8(offset++);
 
@@ -263,10 +272,10 @@ const parseSCTE35Data = (bytes: Uint8Array): ISpliceInfoSection => {
     sis.encryptedPacket = !!(byte & 0x80);
     sis.encryptedAlgorithm = (byte & 0x7E) >> 1;
     if (sis.encryptedPacket) {
-        console.error(`splice_info_section encrypted_packet ${sis.encryptedAlgorithm} not supported`);
+        console.error(`scte35-js splice_info_section encrypted_packet ${sis.encryptedAlgorithm} not supported`);
     }
     // NOTE(estobb200): Can't shift JavaScript numbers above 32 bits
-    sis.ptsAdjustment = (byte & 0x01) ? THIRTY_TWO_BIT_SHIFT : 0;
+    sis.ptsAdjustment = (byte & 0x01) ? util.THIRTY_TWO_BIT_MULTIPLIER : 0;
     sis.ptsAdjustment += view.getUint32(offset);
     offset += 4;
 
@@ -289,7 +298,7 @@ const parseSCTE35Data = (bytes: Uint8Array): ISpliceInfoSection => {
         } else if (sis.spliceCommandType === SpliceCommandType.TIME_SIGNAL) {
             sis.spliceCommand = timeSignal(splice);
         } else if (sis.spliceCommandType === SpliceCommandType.PRIVATE_COMMAND) {
-            console.error(`command_type private_command not supported.`);
+            console.error(`scte35-js command_type private_command not supported.`);
         }
     }
     offset += sis.spliceCommandLength;
@@ -298,10 +307,23 @@ const parseSCTE35Data = (bytes: Uint8Array): ISpliceInfoSection => {
     offset += 2
 
     if (sis.descriptorLoopLength) {
-        const descriptorView = new DataView(bytes.buffer, offset, sis.descriptorLoopLength);
-        sis.descriptor = descriptors.parseDescriptors(descriptorView);
+        let bytesToRead = sis.descriptorLoopLength;
+        sis.descriptors = [];
 
-        offset += sis.descriptorLoopLength;
+        try {
+            while (bytesToRead) {
+                const descriptorView = new DataView(bytes.buffer, offset, bytesToRead);
+                const spliceDescriptor = descriptors.parseDescriptor(descriptorView);
+                bytesToRead -= spliceDescriptor.descriptorLength + 2;
+                offset += spliceDescriptor.descriptorLength + 2;
+                sis.descriptors.push(spliceDescriptor);
+            }
+        } catch (error) {
+            console.error(`scte35-js Error reading descriptor @ ${offset}, ignoring remaing bytes: ${bytesToRead} in loop.`);
+            console.error(error);
+            offset += bytesToRead;
+            bytesToRead = 0;
+        }
     }
 
     // TODO: alignment_stuffing
@@ -311,7 +333,7 @@ const parseSCTE35Data = (bytes: Uint8Array): ISpliceInfoSection => {
     offset += 4;
 
     if (offset !== view.byteLength) {
-        console.error(`Bad SCTE35 read - remaining data: ${bytes.slice(offset).join(", ")}`);
+        console.error(`scte35-js Bad SCTE35 read - remaining data: ${bytes.slice(offset).join(", ")}`);
     }
 
     return sis;

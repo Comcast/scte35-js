@@ -67,4 +67,11 @@ describe("SCTE35", () => {
         chai.expect((spliceInfo.spliceCommand as any).breakDuration.duration).to.eql(5400000);
     });
 
+    it("should parse two descriptors", () => {
+        const base64 = "/DBfAAHsGNoe///wBQb+F08gCQBJAhxDVUVJxHIBUX//AAEgwfgICAAFH4HEcgFRNAIDAilDVUVJAAAAAH+/DBpWTU5VAV/G7ALs/RHgrKYAJrlBTzABAAAAAAEAAH2eFFg=";
+        const spliceInfo = scte35.SCTE35.parseFromB64(base64);
+        chai.expect(spliceInfo.descriptors).to.not.be.undefined;
+        chai.expect(spliceInfo.descriptors!.length).to.eq(2);
+    });
+
 });
