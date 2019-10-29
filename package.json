@@ -2,17 +2,18 @@
   "name": "scte35",
   "version": "0.2.0",
   "description": "",
-  "main": "index.js",
+  "main": "build/scte35.js",
+  "types": "build/scte35.d.ts",
   "directories": {
     "lib": "lib",
     "test": "test"
   },
   "scripts": {
-    "clean": "rimraf dist",
+    "clean": "rimraf build",
     "pretest": "npm run clean && tsc --project ./test/tsconfig.json",
     "test": "nyc mocha --require source-map-support/register --recursive ./dist/test/**/*.test.js --require ./util/dom-shim.js",
     "parse": "node ./scripts/cli.js",
-    "build": "tsc"
+    "build": "npm run clean && tsc"
   },
   "repository": {
     "type": "git",
