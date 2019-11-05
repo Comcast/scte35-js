@@ -5,7 +5,7 @@
     "module": "commonjs"
   },
   "include": [
-    "./*.ts",
+    "./*.test.ts",
     "../node_modules/@types"
   ]
 }
