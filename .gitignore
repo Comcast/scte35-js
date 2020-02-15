@@ -60,7 +60,6 @@ typings/
 # TypeScript
 dist/
 build/
-docs/
 
 # IDE
 .idea
