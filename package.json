@@ -1,7 +1,7 @@
 {
   "name": "scte35",
   "version": "0.2.6",
-  "description": "",
+  "description": "A SCTE35 tag parser JavaScript module and CLI tool.",
   "main": "build/scte35.js",
   "types": "build/scte35.d.ts",
   "directories": {
