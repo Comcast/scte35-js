@@ -209,7 +209,7 @@ export const parseDescriptor = (view: DataView): ISpliceDescriptor => {
 
             if (!segmentationDescriptor.programSegmentationFlag) {
                 segmentationDescriptor.componentCount = view.getUint8(offset++);
-                // console.warn("scte35-js TODO: segmentationDescriptor.componentCount: " + segmentationDescriptor.componentCount);
+                console.warn("scte35-js TODO: segmentationDescriptor.componentCount: " + segmentationDescriptor.componentCount);
                 // TODO: component count
                 offset += segmentationDescriptor.componentCount * 6;
             }
