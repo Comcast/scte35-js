@@ -18,6 +18,7 @@
     "node_modules",
     "ui",
     "cli",
-    "__tests__"
+    "__tests__",
+    "build"
   ]
 }
