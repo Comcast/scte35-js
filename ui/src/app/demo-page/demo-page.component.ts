@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import * as scte35 from 'scte35/build/lib/scte35';
+import * as scte35 from 'scte35/build/src/scte35';
 
 @Component({
   selector: 'app-demo-page',

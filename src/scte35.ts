@@ -260,7 +260,6 @@ const parseSCTE35Data = (bytes: Uint8Array): ISpliceInfoSection => {
     let byte = view.getUint8(offset++);
     sis.selectionSyntaxIndicator = !!(byte & 0x80);
     sis.privateIndicator = !!(byte & 0x40);
-    // const reserved = (byte & 0x03) >> 4;
     sis.sectionLength = ((byte & 0x0F) << 8) + view.getUint8(offset++);
     if (sis.sectionLength + 3 !== bytes.byteLength) {
         throw new Error(`Binary read error sectionLength: ${sis.sectionLength} + 3 !== data.length: ${bytes.byteLength}`);
@@ -289,7 +288,7 @@ const parseSCTE35Data = (bytes: Uint8Array): ISpliceInfoSection => {
 
     sis.spliceCommandType = view.getUint8(offset++);
 
-    if (sis.spliceCommandType != SpliceCommandType.SPLICE_NULL) {
+    if (sis.spliceCommandType !== SpliceCommandType.SPLICE_NULL) {
         const splice = new DataView(bytes.buffer, offset, sis.spliceCommandLength);
         if (sis.spliceCommandType === SpliceCommandType.SPLICE_SCHEDULE) {
             sis.spliceCommand = spliceSchedule(splice);
