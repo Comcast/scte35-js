@@ -64,3 +64,4 @@ build/
 # IDE
 .idea
 .iml
+.vscode

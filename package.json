@@ -13,9 +13,8 @@
   },
   "scripts": {
     "clean": "rimraf build",
-    "pretest": "npm run clean && tsc --project ./test/tsconfig.json",
-    "test": "nyc mocha --require source-map-support/register --recursive ./dist/test/**/*.test.js --require ./util/dom-shim.js",
-    "posttest": "rimraf dist",
+    "cover": "nyc npm test",
+    "test": "mocha --require ts-node/register --watch-extensions ts,tsx __tests__/*.spec.ts",
     "build": "npm run clean && tsc"
   },
   "publishConfig": {
