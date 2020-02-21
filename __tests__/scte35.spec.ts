@@ -16,8 +16,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import * as chai from "chai";
+import { expect } from "chai";
 import * as scte35 from "../lib/scte35";
+require("../util/dom-shim.js")
 
 describe("SCTE35", () => {
 
@@ -25,7 +26,7 @@ describe("SCTE35", () => {
         const base64 = "/DBGAAET8J+pAP/wBQb+AAAAAAAwAi5DVUVJQAErgX+/CR9TSUdOQUw6OGlTdzllUWlGVndBQUFBQUFBQUJCQT09NwMDaJ6RZQ==";
         const spliceInfo = scte35.SCTE35.parseFromB64(base64);
         // Confirms that all 33 bits are read correctly
-        chai.expect(spliceInfo.ptsAdjustment).to.eq(4629503913);
+        expect(spliceInfo.ptsAdjustment).to.eq(4629503913);
     });
 
     it("should parse from base64", () => {
@@ -38,7 +39,7 @@ describe("SCTE35", () => {
         const base64 = "/DBoAAFDizjpAP/wBQb/ebGh8wBSAhhDVUVJXAJwnn+3AQlIREkwMzA0MDghAQACGkNVRUlcAnC6f/cAAZUdEwEGUFMxODgxNAAAAhpDVUVJXAJwu3/3AAApMbEBBlBTMTg4MTAAABLEqgg=";
         const spliceInfo = scte35.SCTE35.parseFromB64(base64);
         // Confirms that all 33 bits are read correctly
-        chai.expect(spliceInfo.ptsAdjustment).to.eq(5428164841);
+        expect(spliceInfo.ptsAdjustment).to.eq(5428164841);
     });
 
     it("should parse from base64", () => {
@@ -57,21 +58,21 @@ describe("SCTE35", () => {
         const base64 = "fc3046000113f09fa900fff00506fe000000000030022e4355454940012b817fbf091f5349474e414c3a386953773965516946567741414141414141414242413d3d370303689e9165";
         const spliceInfo = scte35.SCTE35.parseFromHex(base64);
         // Confirms that all 33 bits are read correctly
-        chai.expect(spliceInfo.ptsAdjustment).to.eq(4629503913);
+        expect(spliceInfo.ptsAdjustment).to.eq(4629503913);
     });
 
     it("should parse splice_insert correctly", () => {
         const hex = "/DAlAAAAAAAAAP/wFAUAAqbVf+/+AAAAAH4AUmXAAAAAAAAAdIQsGg==";
         const spliceInfo = scte35.SCTE35.parseFromB64(hex);
-        chai.expect((spliceInfo.spliceCommand as any).spliceTime.specified).to.eql(true);
-        chai.expect((spliceInfo.spliceCommand as any).breakDuration.duration).to.eql(5400000);
+        expect((spliceInfo.spliceCommand as any).spliceTime.specified).to.eql(true);
+        expect((spliceInfo.spliceCommand as any).breakDuration.duration).to.eql(5400000);
     });
 
     it("should parse two descriptors", () => {
         const base64 = "/DBfAAHsGNoe///wBQb+F08gCQBJAhxDVUVJxHIBUX//AAEgwfgICAAFH4HEcgFRNAIDAilDVUVJAAAAAH+/DBpWTU5VAV/G7ALs/RHgrKYAJrlBTzABAAAAAAEAAH2eFFg=";
         const spliceInfo = scte35.SCTE35.parseFromB64(base64);
-        chai.expect(spliceInfo.descriptors).to.not.be.undefined;
-        chai.expect(spliceInfo.descriptors!.length).to.eq(2);
+        expect(spliceInfo.descriptors).to.not.be.undefined;
+        expect(spliceInfo.descriptors!.length).to.eq(2);
     });
 
 });
