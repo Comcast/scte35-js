@@ -10,7 +10,7 @@
   },
   "bin": {
     "scte35": "scripts/scte35"
-  },  
+  },
   "scripts": {
     "clean": "rimraf build",
     "cover": "nyc npm test",
