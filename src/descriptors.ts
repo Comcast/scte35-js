@@ -19,10 +19,10 @@
 import * as util from "./util";
 
 export const enum SpliceDescriptorTag {
-    AVAIL_DESCRIPTOR        = 0x00,
-    DTMF_DESCRIPTOR         = 0x01,
+    AVAIL_DESCRIPTOR = 0x00,
+    DTMF_DESCRIPTOR = 0x01,
     SEGMENTATION_DESCRIPTOR = 0x02,
-    TIME_DESCRIPTOR         = 0x03,
+    TIME_DESCRIPTOR = 0x03,
     // RESERVED 0x04 - 0xFF
 }
 
@@ -52,51 +52,51 @@ export interface IDTMFDescriptor extends ISpliceDescriptorBase {
  * Table 21 segmentation_upid_type
  */
 export const enum SegmentationUpidType {
-    NOT_USED     = 0x00,
+    NOT_USED = 0x00,
     USER_DEFINED = 0x01,
-    ISCI         = 0x02,
-    AD_ID        = 0x03,
-    UMID         = 0x04,
-    ISAN         = 0x05, // Deprecated
-    VISAN        = 0x06,
-    TID          = 0x07,
-    TI           = 0x08,
-    ADI          = 0x09,
-    EIDR         = 0x0A,
-    ATSC         = 0x0B,
-    MPU          = 0x0C,
-    MID          = 0x0D,
-    ADS          = 0x0E,
-    URI          = 0x0F,
+    ISCI = 0x02,
+    AD_ID = 0x03,
+    UMID = 0x04,
+    ISAN = 0x05, // Deprecated
+    VISAN = 0x06,
+    TID = 0x07,
+    TI = 0x08,
+    ADI = 0x09,
+    EIDR = 0x0A,
+    ATSC = 0x0B,
+    MPU = 0x0C,
+    MID = 0x0D,
+    ADS = 0x0E,
+    URI = 0x0F,
 }
 
 export const enum SegmentationTypeId {
-    NOT_INDICATED                           = 0x00,
-    CONTENT_IDENTIFICATION                  = 0x01,
-    PROGRAM_START                           = 0x10,
-    PROGRAM_END                             = 0x11,
-    PROGRAM_EARLY_TERMINATION               = 0x12,
-    PROGRAM_BREAKAWAY                       = 0x13,
-    PROGRAM_RESUMPTION                      = 0x14,
-    PROGRAM_RUNOVER_PLANNED                 = 0x15,
-    PROGRAM_RUNOVER_UNPLANNED               = 0x16,
-    PROGRAM_OVERLAP_START                   = 0x17,
-    PROGRAM_BLACKOUT_OVERRIDE               = 0x18,
-    PROGRAM_START_IN_PROGRESS               = 0x19,
-    CHAPTER_START                           = 0x20,
-    CHAPTER_END                             = 0x21,
-    PROVIDER_ADVERTISEMENT_START            = 0x30,
-    PROVIDER_ADVERTISEMENT_END              = 0x31,
-    DISTRIBUTOR_ADVERTISEMENT_START         = 0x32,
-    DISTRIBUTOR_ADVERTISEMENT_END           = 0x33,
-    PROVIDER_PLACEMENT_OPPORTUNITY_START    = 0x34,
-    PROVIDER_PLACEMENT_OPPORTUNITY_END      = 0x35,
+    NOT_INDICATED = 0x00,
+    CONTENT_IDENTIFICATION = 0x01,
+    PROGRAM_START = 0x10,
+    PROGRAM_END = 0x11,
+    PROGRAM_EARLY_TERMINATION = 0x12,
+    PROGRAM_BREAKAWAY = 0x13,
+    PROGRAM_RESUMPTION = 0x14,
+    PROGRAM_RUNOVER_PLANNED = 0x15,
+    PROGRAM_RUNOVER_UNPLANNED = 0x16,
+    PROGRAM_OVERLAP_START = 0x17,
+    PROGRAM_BLACKOUT_OVERRIDE = 0x18,
+    PROGRAM_START_IN_PROGRESS = 0x19,
+    CHAPTER_START = 0x20,
+    CHAPTER_END = 0x21,
+    PROVIDER_ADVERTISEMENT_START = 0x30,
+    PROVIDER_ADVERTISEMENT_END = 0x31,
+    DISTRIBUTOR_ADVERTISEMENT_START = 0x32,
+    DISTRIBUTOR_ADVERTISEMENT_END = 0x33,
+    PROVIDER_PLACEMENT_OPPORTUNITY_START = 0x34,
+    PROVIDER_PLACEMENT_OPPORTUNITY_END = 0x35,
     DISTRIBUTOR_PLACEMENT_OPPORTUNITY_START = 0x36,
-    DISTRIBUTOR_PLACEMENT_OPPORTUNITY_END   = 0x37,
-    UNSCHEDULED_EVENT_START                 = 0x40,
-    UNSCHEDULED_EVENT_END                   = 0x41,
-    NETWORK_START                           = 0x50,
-    NETWORK_END                             = 0x51,
+    DISTRIBUTOR_PLACEMENT_OPPORTUNITY_END = 0x37,
+    UNSCHEDULED_EVENT_START = 0x40,
+    UNSCHEDULED_EVENT_END = 0x41,
+    NETWORK_START = 0x50,
+    NETWORK_END = 0x51,
 }
 
 export enum SegmentationMessage {
@@ -235,14 +235,11 @@ export const parseDescriptor = (view: DataView): ISpliceDescriptor => {
             segmentationDescriptor.segmentNum = view.getUint8(offset++);
             segmentationDescriptor.segmentsExpected = view.getUint8(offset++);
 
-            if (offset < descriptor.descriptorLength + 2) {
-                if (segmentationDescriptor.segmentationTypeId === 0x34
-                    || segmentationDescriptor.segmentationTypeId === 0x36) {
-                    // NOTE(estobbart): The older SCTE-35 spec did not include
-                    // these additional two bytes
-                    segmentationDescriptor.subSegmentNum = view.getUint8(offset++);
-                    segmentationDescriptor.subSegmentsExpected = view.getUint8(offset++);
-                }
+            if (offset < descriptor.descriptorLength + 2 && (segmentationDescriptor.segmentationTypeId === 0x34 || segmentationDescriptor.segmentationTypeId === 0x36)) {
+                // NOTE(estobbart): The older SCTE-35 spec did not include
+                // these additional two bytes
+                segmentationDescriptor.subSegmentNum = view.getUint8(offset++);
+                segmentationDescriptor.subSegmentsExpected = view.getUint8(offset++);
             }
         }
 

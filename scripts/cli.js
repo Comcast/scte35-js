@@ -2,7 +2,7 @@ import arg from 'arg';
 import inquirer from 'inquirer';
 import {
     SCTE35
-} from "../build/lib/scte35";
+} from "../build/src/scte35";
 
 //TODO: implement --help and --h flags that describe these arguments
 function parseArgumentsIntoOptions(rawArgs) {

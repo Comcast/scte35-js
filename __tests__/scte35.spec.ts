@@ -17,7 +17,7 @@
  */
 
 import { expect } from "chai";
-import * as scte35 from "../lib/scte35";
+import * as scte35 from "../src/scte35";
 require("../util/dom-shim.js")
 
 describe("SCTE35", () => {
