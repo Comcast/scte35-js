@@ -2,7 +2,7 @@ import arg from 'arg';
 import inquirer from 'inquirer';
 import {
     SCTE35
-} from "../build/src/SCTE35";
+} from "../build/scte35";
 
 const scte35 = new SCTE35();
 
