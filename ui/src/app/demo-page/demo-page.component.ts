@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import * as scte35 from 'scte35/build/src/scte35';
+import { SCTE35 } from './../../../../src/SCTE35';
 
 @Component({
   selector: 'app-demo-page',
@@ -13,6 +13,8 @@ export class DemoPageComponent implements OnInit {
   public parsedObjectString: any;
   public showRawJson = false;
 
+  private scte35: SCTE35 = new SCTE35();
+
   constructor() { }
 
   ngOnInit() {
@@ -20,7 +22,7 @@ export class DemoPageComponent implements OnInit {
 
   parsePayload() {
     this.showRawJson = false;
-    this.parsedObject = scte35.SCTE35.parseFromB64(this.payload);
+    this.parsedObject = this.scte35.parseFromB64(this.payload);
     this.parsedObjectString = JSON.stringify(this.parsedObject);
   }
 }
