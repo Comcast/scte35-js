@@ -2,7 +2,9 @@ import arg from 'arg';
 import inquirer from 'inquirer';
 import {
     SCTE35
-} from "../build/src/scte35";
+} from "../build/src/SCTE35";
+
+const scte35 = new SCTE35();
 
 //TODO: implement --help and --h flags that describe these arguments
 function parseArgumentsIntoOptions(rawArgs) {
@@ -38,10 +40,10 @@ export async function cli(args) {
     options = await promptForMissingOptions(options);
     let output;
     if (options.format == 'Base64') {
-        output = JSON.stringify(SCTE35.parseFromB64(options.input), null, 4);
+        output = JSON.stringify(scte35.parseFromB64(options.input), null, 4);
     }
     if (options.format == 'Hexadecimal') {
-        output = JSON.stringify(SCTE35.parseFromHex(options.input), null, 4);
+        output = JSON.stringify(scte35.parseFromHex(options.input), null, 4);
     }
         console.log(output);
 }
