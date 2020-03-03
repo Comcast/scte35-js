@@ -16,18 +16,8 @@ In order to deploy changes to the demo read the README found at https://github.c
 
 ```typescript
     import { SCTE35 } from "scte35";
-```
-
-or...
-
-```typescript
-    const SCTE35 = require("scte35").SCTE35;
-```
-
-then...
-
-```typescript
-    const result = SCTE35.parseFromB64("<base64 string>");
+    const scte35: SCTE35 = new SCTE35();
+    const result = scte35.parseFromB64("<base64 string>");
 ```
 
 ## CLI
