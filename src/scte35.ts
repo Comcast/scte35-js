@@ -35,12 +35,11 @@ export class SCTE35 implements ISCTE35 {
      *                               PUBLIC METHODS
      **********************************************************************************/
 
-     /**
-      * Parses SCTE35 data from a base64 encoded string
-      * @param b64 {string}
-      */
+    /**
+     * Parses SCTE35 data from a base64 encoded string
+     * @param b64 {string}
+     */
     public parseFromB64(b64: string): ISpliceInfoSection {
-        debugger;
         const bytes = Uint8Array.from(atob(b64).split("").map((c) => c.charCodeAt(0)));
         return this.parseSCTE35Data(bytes);
     }
@@ -50,7 +49,6 @@ export class SCTE35 implements ISCTE35 {
      * @param hex {string}
      */
     public parseFromHex(hex: string): ISpliceInfoSection {
-        debugger;
         const octets = hex.match(/[a-f\d]{2}/gi) || [];
         const bytes = Uint8Array.from(octets.map((octet) => parseInt(octet, 16)));
         return this.parseSCTE35Data(bytes);
