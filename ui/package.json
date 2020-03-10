@@ -6,6 +6,8 @@
     "start": "ng serve",
     "build": "ng build",
     "docs": "ng build --prod --base-href /scte35-js/",
+    "test": "ng test",
+    "e2e": "ng e2e",
     "lint": "ng lint"
   },
   "private": true,
@@ -22,7 +24,7 @@
     "@angular/router": "~9.0.5",
     "ngx-json-viewer": "^2.4.0",
     "rxjs": "~6.5.4",
-    "scte35": "^0.2.7",
+    "scte35": "^0.2.9",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.2"
   },

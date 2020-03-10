@@ -19,7 +19,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 
 export class AppComponent {
   scte35: SCTE35 = new SCTE35();
-  title = 'demo-page-app';
+  title = 'SCTE35-JS PARSER DEMO';
   scte35format = 'Base64';
   formats: string[] = ['Base64', 'Hexadecimal'];
   scte35FormControl = new FormControl('', [
