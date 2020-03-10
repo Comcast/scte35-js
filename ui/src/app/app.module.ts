@@ -1,29 +1,28 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import { MaterialModule } from './material/material.module';
-import { FlexLayoutModule } from '@angular/flex-layout';
-import { NgxJsonViewerModule } from 'ngx-json-viewer';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
-import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { DemoPageComponent } from './demo-page/demo-page.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatRadioModule } from '@angular/material/radio';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { NgxJsonViewerModule } from 'ngx-json-viewer';
+import { MatCardModule } from '@angular/material/card';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    DemoPageComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
     BrowserAnimationsModule,
-    MaterialModule,
-    FlexLayoutModule,
-    NgxJsonViewerModule,
+    MatRadioModule,
     FormsModule,
-    ReactiveFormsModule
+    MatInputModule,
+    ReactiveFormsModule,
+    MatButtonModule,
+    NgxJsonViewerModule,
+    MatCardModule
   ],
   providers: [],
   bootstrap: [AppComponent]
