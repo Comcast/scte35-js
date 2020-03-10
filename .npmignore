@@ -1,5 +1,9 @@
 test
 ui
 docs
+gui
+.nyc_output
+.vscode
+.jshintrc
 __tests__
 
