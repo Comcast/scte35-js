@@ -1,6 +1,8 @@
-# scte35-js
+![SCTE-35 JS](https://s3-us-west-2.amazonaws.com/www.blackgsd.com/images/SCTE-35+LOGO.jpg)
 
-Support for SCTE35 parsing in either NodeJS or a "modern" browser.
+<h2 align="center">ANSI/SCTE35 JS PARSER</h2>
+
+SCTE35 tools for parsing in CLI using NodeJS or in a "modern" browser.
 
 ## Demo
 
