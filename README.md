@@ -1,4 +1,4 @@
-![SCTE-35 JS](https://s3-us-west-2.amazonaws.com/www.blackgsd.com/images/SCTE-35+LOGO.jpg)
+![ANSI/SCTE-35 JS](https://s3-us-west-2.amazonaws.com/www.blackgsd.com/images/SCTE-35-logo.png#logo)
 
 <h2 align="center">ANSI/SCTE35 JS PARSER</h2>
 
