@@ -59,7 +59,6 @@ typings/
 
 # TypeScript
 dist/
-build/
 
 # IDE
 .idea
