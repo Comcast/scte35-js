@@ -1,5 +1,4 @@
 #!/usr/bin/env node
 
 require = require('esm')(module /*, options*/);
-require("../util/dom-shim.js");
 require('./cli').cli(process.argv);
