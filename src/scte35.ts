@@ -40,7 +40,7 @@ export class SCTE35 implements ISCTE35 {
      * @param b64 {string}
      */
     public parseFromB64(b64: string): ISpliceInfoSection {
-        const bytes = Uint8Array.from(atob(b64).split("").map((c) => c.charCodeAt(0)));
+        const bytes = Uint8Array.from(this.parseBase64(b64).split("").map((c) => c.charCodeAt(0)));
         return this.parseSCTE35Data(bytes);
     }
 
@@ -57,6 +57,10 @@ export class SCTE35 implements ISCTE35 {
     /***********************************************************************************
      *                               PRIVATE METHODS
      **********************************************************************************/
+
+    private parseBase64(b64: string): string {
+        return Buffer.from(b64, 'base64').toString('binary');
+    }
 
     private spliceEvent(event: SpliceEvent, view: DataView, tag: EventTag): number {
         let offset = 0;
