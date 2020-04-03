@@ -71,7 +71,6 @@ The parser output can be piped into other tools, such as a JSON display utility 
 - Validate the CRC or ECRC
 - Support for encryption
 - Lint commit Angular style w/ release notes generated
-- Create a UI wrapper to host (location TBD / github pages?)
 - Create awareness and advocate for this project in video communities
 - Ignore util directory from test coverage
 - Implement component count of the segmentation descriptor
