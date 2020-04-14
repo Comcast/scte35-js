@@ -20,27 +20,28 @@ import { expect } from "chai";
 import { SCTE35 } from "../src/scte35";
 
 describe("SCTE35", () => {
-
     const scte35: SCTE35 = new SCTE35();
 
     describe("PARSE BASE 64", () => {
-
         it("should parse from base64", () => {
-            const base64 = "/DBGAAET8J+pAP/wBQb+AAAAAAAwAi5DVUVJQAErgX+/CR9TSUdOQUw6OGlTdzllUWlGVndBQUFBQUFBQUJCQT09NwMDaJ6RZQ==";
+            const base64 =
+                "/DBGAAET8J+pAP/wBQb+AAAAAAAwAi5DVUVJQAErgX+/CR9TSUdOQUw6OGlTdzllUWlGVndBQUFBQUFBQUJCQT09NwMDaJ6RZQ==";
             const spliceInfo = scte35.parseFromB64(base64);
             // Confirms that all 33 bits are read correctly
             expect(spliceInfo.ptsAdjustment).to.eq(4629503913);
         });
 
         it("should parse from base64", () => {
-            const base64 = "/DBoAAFDizjpAP/wBQb/ebGh8wBSAhhDVUVJXAJwnn+3AQlIREkwMzA0MDghAQACGkNVRUlcAnC6f/cAAZUdEwEGUFMxODgxNAAAAhpDVUVJXAJwu3/3AAApMbEBBlBTMTg4MTAAABLEqgg=";
+            const base64 =
+                "/DBoAAFDizjpAP/wBQb/ebGh8wBSAhhDVUVJXAJwnn+3AQlIREkwMzA0MDghAQACGkNVRUlcAnC6f/cAAZUdEwEGUFMxODgxNAAAAhpDVUVJXAJwu3/3AAApMbEBBlBTMTg4MTAAABLEqgg=";
             const spliceInfo = scte35.parseFromB64(base64);
             // Confirms that all 33 bits are read correctly
             expect(spliceInfo.ptsAdjustment).to.eq(5428164841);
         });
 
         it("should parse two descriptors", () => {
-            const base64 = "/DBfAAHsGNoe///wBQb+F08gCQBJAhxDVUVJxHIBUX//AAEgwfgICAAFH4HEcgFRNAIDAilDVUVJAAAAAH+/DBpWTU5VAV/G7ALs/RHgrKYAJrlBTzABAAAAAAEAAH2eFFg=";
+            const base64 =
+                "/DBfAAHsGNoe///wBQb+F08gCQBJAhxDVUVJxHIBUX//AAEgwfgICAAFH4HEcgFRNAIDAilDVUVJAAAAAH+/DBpWTU5VAV/G7ALs/RHgrKYAJrlBTzABAAAAAAEAAH2eFFg=";
             const spliceInfo = scte35.parseFromB64(base64);
             expect(spliceInfo.descriptors).to.not.equal(undefined);
             if (spliceInfo.descriptors) {
@@ -60,12 +61,12 @@ describe("SCTE35", () => {
         //     const spliceInfo = scte35.parseFromB64(base64);
         // });
         /*tslint:enable*/
-
     });
 
     describe("PARSE HEX", () => {
         it("should parse ptsAdjustment", () => {
-            const base64 = "fc3046000113f09fa900fff00506fe000000000030022e4355454940012b817fbf091f5349474e414c3a386953773965516946567741414141414141414242413d3d370303689e9165";
+            const base64 =
+                "fc3046000113f09fa900fff00506fe000000000030022e4355454940012b817fbf091f5349474e414c3a386953773965516946567741414141414141414242413d3d370303689e9165";
             const spliceInfo = scte35.parseFromHex(base64);
             // TODO: Confirms that all 33 bits are read correctly
             expect(spliceInfo.ptsAdjustment).to.eq(4629503913);
@@ -80,16 +81,17 @@ describe("SCTE35", () => {
     });
 
     describe("UTILITIES", () => {
-
         it("should parse base64 string Hello World", () => {
             const helloWorld = "SGVsbG8sIFdvcmxkIQ==";
             expect((scte35 as any).parseBase64(helloWorld)).to.equal("Hello, World!");
-        })
+        });
 
         it("should parse special message", () => {
-            const message = "V2UgYXJlIGxvb2tpbmcgZm9yIGNvbnRyaWJ1dG9ycyB0aGF0IHdhbnQgdG8gaGVscCBpbXByb3ZlIHRoaXMgbGlicmFyeSwgd2FudCB0byBoZWxwPw==";
-            expect((scte35 as any).parseBase64(message)).to.equal("We are looking for contributors that want to help improve this library, want to help?");
-        })
+            const message =
+                "V2UgYXJlIGxvb2tpbmcgZm9yIGNvbnRyaWJ1dG9ycyB0aGF0IHdhbnQgdG8gaGVscCBpbXByb3ZlIHRoaXMgbGlicmFyeSwgd2FudCB0byBoZWxwPw==";
+            expect((scte35 as any).parseBase64(message)).to.equal(
+                "We are looking for contributors that want to help improve this library, want to help?"
+            );
+        });
     });
-
 });

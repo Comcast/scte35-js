@@ -24,13 +24,12 @@ import {
     ISpliceScheduleEvent,
     ISpliceTime,
     ISpliceInfoSection,
-    ISCTE35
+    ISCTE35,
 } from "./ISCTE35";
 import * as descriptors from "./descriptors";
 import * as util from "./util";
 
 export class SCTE35 implements ISCTE35 {
-
     /***********************************************************************************
      *                               PUBLIC METHODS
      **********************************************************************************/
@@ -40,7 +39,11 @@ export class SCTE35 implements ISCTE35 {
      * @param b64 {string}
      */
     public parseFromB64(b64: string): ISpliceInfoSection {
-        const bytes = Uint8Array.from(this.parseBase64(b64).split("").map((c) => c.charCodeAt(0)));
+        const bytes = Uint8Array.from(
+            this.parseBase64(b64)
+                .split("")
+                .map((c) => c.charCodeAt(0))
+        );
         return this.parseSCTE35Data(bytes);
     }
 
@@ -59,7 +62,7 @@ export class SCTE35 implements ISCTE35 {
      **********************************************************************************/
 
     private parseBase64(b64: string): string {
-        return Buffer.from(b64, 'base64').toString('binary');
+        return Buffer.from(b64, "base64").toString("binary");
     }
 
     private spliceEvent(event: SpliceEvent, view: DataView, tag: EventTag): number {
@@ -111,7 +114,6 @@ export class SCTE35 implements ISCTE35 {
                 console.warn("scte35-js TODO: support splice_insert");
                 // TODO:.. support for the array in the SPLICE_INSERT
             }
-
         }
 
         if (event.durationFlag) {
@@ -120,7 +122,7 @@ export class SCTE35 implements ISCTE35 {
             // 9.4.2 break_duration()
             event.breakDuration = {
                 autoReturn: !!(byte & 0x80),
-                duration: ((byte & 0x01) ? util.THIRTY_TWO_BIT_MULTIPLIER : 0) + view.getUint32(offset),
+                duration: (byte & 0x01 ? util.THIRTY_TWO_BIT_MULTIPLIER : 0) + view.getUint32(offset),
             };
             offset += 4;
         }
@@ -132,7 +134,7 @@ export class SCTE35 implements ISCTE35 {
         event.expected = view.getUint8(offset++);
 
         return offset;
-    };
+    }
 
     /**
      * 9.3.2 splice_schedule()
@@ -145,14 +147,18 @@ export class SCTE35 implements ISCTE35 {
 
         while (schedule.spliceEvents.length !== schedule.spliceCount) {
             const event = {} as ISpliceScheduleEvent;
-            offset += this.spliceEvent(event, new DataView(view.buffer, view.byteOffset + offset), SpliceCommandType.SPLICE_SCHEDULE);
+            offset += this.spliceEvent(
+                event,
+                new DataView(view.buffer, view.byteOffset + offset),
+                SpliceCommandType.SPLICE_SCHEDULE
+            );
             schedule.spliceEvents.push(event);
         }
         if (offset !== view.byteLength) {
             console.error(`scte35-js Bad read splice_schedule actual: ${offset} expected: ${view.byteLength}`);
         }
         return schedule;
-    };
+    }
 
     /**
      * 9.3.3 splice_insert()
@@ -164,7 +170,7 @@ export class SCTE35 implements ISCTE35 {
             console.error(`scte35-js Bad read splice_insert actual: ${offset} expected: ${view.byteLength}`);
         }
         return insert;
-    };
+    }
 
     /**
      * 9.4.1 splice_time()
@@ -181,11 +187,11 @@ export class SCTE35 implements ISCTE35 {
         const byte = view.getUint8(0);
         spliceTime.specified = !!(byte & 0x80);
         if (spliceTime.specified) {
-            spliceTime.pts = (byte & 0x01) ? util.THIRTY_TWO_BIT_MULTIPLIER : 0;
+            spliceTime.pts = byte & 0x01 ? util.THIRTY_TWO_BIT_MULTIPLIER : 0;
             spliceTime.pts += view.getUint32(1);
         }
         return spliceTime;
-    };
+    }
 
     // Table 5 splice_info_section
     private parseSCTE35Data(bytes: Uint8Array): ISpliceInfoSection {
@@ -199,21 +205,23 @@ export class SCTE35 implements ISCTE35 {
         let byte = view.getUint8(offset++);
         sis.selectionSyntaxIndicator = !!(byte & 0x80);
         sis.privateIndicator = !!(byte & 0x40);
-        sis.sectionLength = ((byte & 0x0F) << 8) + view.getUint8(offset++);
+        sis.sectionLength = ((byte & 0x0f) << 8) + view.getUint8(offset++);
         if (sis.sectionLength + 3 !== bytes.byteLength) {
-            throw new Error(`Binary read error sectionLength: ${sis.sectionLength} + 3 !== data.length: ${bytes.byteLength}`);
+            throw new Error(
+                `Binary read error sectionLength: ${sis.sectionLength} + 3 !== data.length: ${bytes.byteLength}`
+            );
         }
 
         sis.protocolVersion = view.getUint8(offset++);
 
         byte = view.getUint8(offset++);
         sis.encryptedPacket = !!(byte & 0x80);
-        sis.encryptedAlgorithm = (byte & 0x7E) >> 1;
+        sis.encryptedAlgorithm = (byte & 0x7e) >> 1;
         if (sis.encryptedPacket) {
             console.error(`scte35-js splice_info_section encrypted_packet ${sis.encryptedAlgorithm} not supported`);
         }
         // NOTE(estobb200): Can't shift JavaScript numbers above 32 bits
-        sis.ptsAdjustment = (byte & 0x01) ? util.THIRTY_TWO_BIT_MULTIPLIER : 0;
+        sis.ptsAdjustment = byte & 0x01 ? util.THIRTY_TWO_BIT_MULTIPLIER : 0;
         sis.ptsAdjustment += view.getUint32(offset);
         offset += 4;
 
@@ -221,9 +229,9 @@ export class SCTE35 implements ISCTE35 {
         sis.tier = view.getUint8(offset++) << 4;
 
         byte = view.getUint8(offset++);
-        sis.tier += (byte & 0xF0) >> 4;
+        sis.tier += (byte & 0xf0) >> 4;
 
-        sis.spliceCommandLength = ((byte & 0x0F) << 8) + view.getUint8(offset++);
+        sis.spliceCommandLength = ((byte & 0x0f) << 8) + view.getUint8(offset++);
 
         sis.spliceCommandType = view.getUint8(offset++);
 
@@ -242,7 +250,7 @@ export class SCTE35 implements ISCTE35 {
         offset += sis.spliceCommandLength;
 
         sis.descriptorLoopLength = view.getUint16(offset);
-        offset += 2
+        offset += 2;
 
         if (sis.descriptorLoopLength) {
             let bytesToRead = sis.descriptorLoopLength;
@@ -257,7 +265,9 @@ export class SCTE35 implements ISCTE35 {
                     sis.descriptors.push(spliceDescriptor);
                 }
             } catch (error) {
-                console.error(`scte35-js Error reading descriptor @ ${offset}, ignoring remaing bytes: ${bytesToRead} in loop.`);
+                console.error(
+                    `scte35-js Error reading descriptor @ ${offset}, ignoring remaing bytes: ${bytesToRead} in loop.`
+                );
                 console.error(error);
                 offset += bytesToRead;
                 bytesToRead = 0;
@@ -276,5 +286,4 @@ export class SCTE35 implements ISCTE35 {
 
         return sis;
     }
-
 }

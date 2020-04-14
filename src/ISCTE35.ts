@@ -90,10 +90,9 @@ export const enum SpliceCommandType {
     TIME_SIGNAL = 0x06,
     BANDWIDTH_RESERVATION = 0x07,
     // RESERVED 0x08 - FE
-    PRIVATE_COMMAND = 0xFF // TODO: support parsing into an array buffer or something?
+    PRIVATE_COMMAND = 0xff, // TODO: support parsing into an array buffer or something?
 }
 
 export type SpliceEvent = ISpliceScheduleEvent | ISpliceInsertEvent;
 export type EventTag = SpliceCommandType.SPLICE_SCHEDULE | SpliceCommandType.SPLICE_INSERT;
 export type SpliceCommand = ISpliceSchedule | ISpliceInsertEvent | ISpliceTime;
-
