@@ -59,19 +59,3 @@ The parser output can be piped into other tools, such as a JSON display utility 
     npm i -g fx
     scte35 /DBGAAET8J+pAP/wBQb+AAAAAAAwAi5DVUVJQAErgX+/CR9TSUdOQUw6OGlTdzllUWlGVndBQUFBQUFBQUJCQT09NwMDaJ6RZQ== | fx
 ```
-
-## TODO
-
-- Turn these TODO's into tickets
-- Support for additional splice descriptors
-- Documentation on the methods and interfaces (jsdoc)
-- Published docs (in GH wiki maybe?)
-- Additional testing/coverage
-- Support for alignment stuffing
-- Validate the CRC or ECRC
-- Support for encryption
-- Lint commit Angular style w/ release notes generated
-- Create awareness and advocate for this project in video communities
-- Ignore util directory from test coverage
-- Implement component count of the segmentation descriptor
-- Track down the older specs to confirm which versions this module supports
