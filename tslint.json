@@ -7,7 +7,9 @@
     "jsRules": {},
     "rules": {
         "no-console": false,
-        "no-bitwise": false
+        "no-bitwise": false,
+        "arguments-order": false,
+        "cognitive-complexity": [true, 20]
     },
     "rulesDirectory": []
 }
