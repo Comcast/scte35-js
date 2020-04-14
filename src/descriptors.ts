@@ -62,12 +62,12 @@ export const enum SegmentationUpidType {
     TID = 0x07,
     TI = 0x08,
     ADI = 0x09,
-    EIDR = 0x0A,
-    ATSC = 0x0B,
-    MPU = 0x0C,
-    MID = 0x0D,
-    ADS = 0x0E,
-    URI = 0x0F,
+    EIDR = 0x0a,
+    ATSC = 0x0b,
+    MPU = 0x0c,
+    MID = 0x0d,
+    ADS = 0x0e,
+    URI = 0x0f,
 }
 
 export const enum SegmentationTypeId {
@@ -147,7 +147,6 @@ export interface ITimeDescriptor extends ISpliceDescriptorBase {
 
 export type ISpliceDescriptor = IAvailDescriptor | IDTMFDescriptor | ISegmentationDescriptor | ITimeDescriptor;
 
-
 /**
  * 10.2 splice_descriptor()
  *
@@ -209,7 +208,9 @@ export const parseDescriptor = (view: DataView): ISpliceDescriptor => {
 
             if (!segmentationDescriptor.programSegmentationFlag) {
                 segmentationDescriptor.componentCount = view.getUint8(offset++);
-                console.warn("scte35-js TODO: segmentationDescriptor.componentCount: " + segmentationDescriptor.componentCount);
+                console.warn(
+                    "scte35-js TODO: segmentationDescriptor.componentCount: " + segmentationDescriptor.componentCount
+                );
                 // TODO: component count
                 offset += segmentationDescriptor.componentCount * 6;
             }
@@ -235,14 +236,17 @@ export const parseDescriptor = (view: DataView): ISpliceDescriptor => {
             segmentationDescriptor.segmentNum = view.getUint8(offset++);
             segmentationDescriptor.segmentsExpected = view.getUint8(offset++);
 
-            if (offset < descriptor.descriptorLength + 2 && (segmentationDescriptor.segmentationTypeId === 0x34 || segmentationDescriptor.segmentationTypeId === 0x36)) {
+            if (
+                offset < descriptor.descriptorLength + 2 &&
+                (segmentationDescriptor.segmentationTypeId === 0x34 ||
+                    segmentationDescriptor.segmentationTypeId === 0x36)
+            ) {
                 // NOTE(estobbart): The older SCTE-35 spec did not include
                 // these additional two bytes
                 segmentationDescriptor.subSegmentNum = view.getUint8(offset++);
                 segmentationDescriptor.subSegmentsExpected = view.getUint8(offset++);
             }
         }
-
     } else if (descriptor.spliceDescriptorTag === SpliceDescriptorTag.TIME_DESCRIPTOR) {
         offset = descriptor.descriptorLength + 2;
         console.warn("scte35-js TODO: support spliceDescriptorTag: SpliceDescriptorTag.TIME_DESCRIPTOR");

@@ -1,27 +1,18 @@
 {
-  "compilerOptions": {
-    "declaration": true,
-    "inlineSourceMap": false,
-    "module": "commonjs",
-    "moduleResolution": "node",
-    "noImplicitAny": true,
-    "noUnusedParameters": true,
-    "sourceMap": true,
-    "strict": true,
-    "strictNullChecks": true,
-    "strictPropertyInitialization": true,
-    "target": "ES6",
-    "typeRoots": [
-      "types",
-      "node_modules/@types"
-    ],
-    "outDir": "build"
-  },
-  "exclude": [
-    "node_modules",
-    "ui",
-    "cli",
-    "__tests__",
-    "build"
-  ]
+    "compilerOptions": {
+        "declaration": true,
+        "inlineSourceMap": false,
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "noImplicitAny": true,
+        "noUnusedParameters": true,
+        "sourceMap": true,
+        "strict": true,
+        "strictNullChecks": true,
+        "strictPropertyInitialization": true,
+        "target": "ES6",
+        "typeRoots": ["types", "node_modules/@types"],
+        "outDir": "build"
+    },
+    "exclude": ["node_modules", "ui", "cli", "__tests__", "build"]
 }

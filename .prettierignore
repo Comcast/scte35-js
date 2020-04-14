@@ -1,0 +1,10 @@
+build
+coverage
+jsdoc
+node_modules
+report
+ui
+docs
+*.md
+package-lock.json
+package.json
