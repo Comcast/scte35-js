@@ -20,7 +20,7 @@
         "test": "mocha --require ts-node/register --watch-extensions ts,tsx __tests__/*.spec.ts",
         "build": "npm run clean && tsc",
         "postpublish": "npm run clean",
-        "prepublishOnly": "npm run build"
+        "prepublishOnly": "npm run build && npm run docs"
     },
     "publishConfig": {
         "access": "public"
