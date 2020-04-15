@@ -1,8 +1,13 @@
 test
 ui
 docs
+jsdoc
 .nyc_output
 .vscode
 .jshintrc
+.huskyrc
+.prettierrc
+.prettierignore
+.gitignore
 __tests__
 

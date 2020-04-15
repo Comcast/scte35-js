@@ -15,6 +15,7 @@
         "beautify": "prettier --write \"**/*.{json,css,scss,yml,ts,js}\"",
         "clean": "rimraf build",
         "cover": "nyc npm test",
+        "docs": "typedoc --name 'SCTE35 JS' --out jsdoc --mode file -m commonjs -t es6 --experimentalDecorators --excludeExternals --readme none --ignoreCompilerErrors --tsconfig tsconfig-typedoc.json ./src",
         "lint": "tslint --project tsconfig.json src/**/*.{ts,tsx}",
         "test": "mocha --require ts-node/register --watch-extensions ts,tsx __tests__/*.spec.ts",
         "build": "npm run clean && tsc",
@@ -56,6 +57,7 @@
         "ts-node": "^8.8.2",
         "tslint": "^6.1.1",
         "tslint-sonarts": "^1.9.0",
+        "typedoc": "^0.17.4",
         "typescript": "^3.8.3"
     },
     "dependencies": {
