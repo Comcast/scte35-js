@@ -28,8 +28,12 @@ import {
 } from "./ISCTE35";
 import * as descriptors from "./descriptors";
 import * as util from "./util";
+import { Buffer } from "buffer/";
 
 export class SCTE35 implements ISCTE35 {
+
+    private buffer = Buffer;
+
     /***********************************************************************************
      *                               PUBLIC METHODS
      **********************************************************************************/
@@ -62,7 +66,7 @@ export class SCTE35 implements ISCTE35 {
      **********************************************************************************/
 
     private parseBase64(b64: string): string {
-        return Buffer.from(b64, "base64").toString("binary");
+        return this.buffer.from(b64, "base64").toString("binary");
     }
 
     private spliceEvent(event: SpliceEvent, view: DataView, tag: EventTag): number {
