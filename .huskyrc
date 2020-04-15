@@ -1,5 +1,6 @@
 {
   "hooks": {
-    "pre-commit": "npm run beautify && npm run lint && npm test"
+    "pre-commit": "npm run beautify && npm run lint && npm test",
+    "post-receive": "npm run docs",
   }
 }

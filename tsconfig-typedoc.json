@@ -1,0 +1,13 @@
+{
+    "extends": "./tsconfig.json",
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "es6",
+        "sourceMap": true,
+        "experimentalDecorators": true
+    },
+    "include": ["./src/**/*.ts"],
+    "atom": {
+        "formatOnSave": true
+    }
+}
