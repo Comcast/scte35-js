@@ -11,6 +11,10 @@
         "strictNullChecks": true,
         "strictPropertyInitialization": true,
         "target": "ES6",
+        "types": [
+            "node",
+            "mocha"
+        ],
         "typeRoots": ["types", "node_modules/@types"],
         "outDir": "build"
     },
