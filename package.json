@@ -1,6 +1,6 @@
 {
     "name": "scte35",
-    "version": "0.2.13",
+    "version": "0.2.14",
     "description": "",
     "main": "build/scte35.js",
     "types": "build/scte35.d.ts",
@@ -20,7 +20,7 @@
         "test": "mocha --require ts-node/register --watch-extensions ts,tsx __tests__/*.spec.ts",
         "build": "npm run clean && tsc",
         "postpublish": "npm run clean",
-        "prepublishOnly": "npm run build"
+        "prepublishOnly": "npm run build && npm run docs"
     },
     "publishConfig": {
         "access": "public"
