@@ -1,6 +1,6 @@
 {
     "name": "scte35",
-    "version": "0.2.13",
+    "version": "0.2.13-beta.0",
     "description": "",
     "main": "build/scte35.js",
     "types": "build/scte35.d.ts",
