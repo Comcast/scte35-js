@@ -31,7 +31,6 @@ import * as util from "./util";
 import { Buffer } from "buffer/";
 
 export class SCTE35 implements ISCTE35 {
-
     private buffer = Buffer;
 
     /***********************************************************************************
