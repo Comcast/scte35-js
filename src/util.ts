@@ -23,6 +23,6 @@ export const THIRTY_TWO_BIT_MULTIPLIER = Math.pow(2, 32);
 /**
  * shifts a single byte by 32 bits
  */
-export const shiftThirtyTwoBits = (byte: number) => {
+export const shiftThirtyTwoBits = (byte: number): number => {
     return byte * THIRTY_TWO_BIT_MULTIPLIER;
 };
