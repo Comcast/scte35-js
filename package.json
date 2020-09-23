@@ -44,7 +44,7 @@
     },
     "homepage": "https://github.com/Comcast/scte35-js#readme",
     "devDependencies": {
-        "@types/chai": "^4.2.11",
+        "@types/chai": "^4.2.12",
         "@types/mocha": "^8.0.0",
         "@typescript-eslint/eslint-plugin": "^4.2.0",
         "@typescript-eslint/parser": "^4.2.0",
