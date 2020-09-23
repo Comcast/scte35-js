@@ -26,12 +26,12 @@ export class AppComponent {
     Validators.required
   ]);
   matcher = new MyErrorStateMatcher();
-  parsedObject: any;
+  parsedObject: unknown;
   rawObject: string;
-  displayObject: any;
+  displayObject: unknown;
   raw = false;
 
-  parse() {
+  parse(): void {
     switch (this.scte35format) {
       case 'Base64':
         this.parsedObject = this.scte35.parseFromB64(this.scte35FormControl.value);
@@ -44,13 +44,13 @@ export class AppComponent {
     this.rawObject = JSON.stringify(this.parsedObject);
   }
 
-  viewRaw() {
+  viewRaw(): void {
     this.displayObject = this.rawObject;
     this.raw = true;
 
   }
 
-  viewPretty() {
+  viewPretty(): void {
     this.displayObject = this.parsedObject;
     this.raw = false;
   }

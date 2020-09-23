@@ -1,0 +1,5 @@
+node_modules
+build
+docs
+jsdoc
+__tests__
