@@ -19,7 +19,7 @@ describe('AppComponent', () => {
   it(`should have as title 'SCTE35-JS PARSER DEMO'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('SCTE35-JS PARSER DEMO (v0.3.0)');
+    expect(app.title).toEqual('SCTE35-JS PARSER DEMO (v0.4.0)');
   });
 
   it('should render format type title', () => {
