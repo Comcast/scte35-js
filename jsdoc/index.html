@@ -7,6 +7,7 @@
 	<meta name="description" content="Documentation for SCTE35 JS">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="assets/css/main.css">
+	<script async src="assets/js/search.js" id="search-script"></script>
 </head>
 <body>
 <header>
@@ -38,8 +39,8 @@
 							</div>
 							<input type="checkbox" id="tsd-filter-inherited" checked />
 							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
-							<input type="checkbox" id="tsd-filter-only-exported" />
-							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
 						</div>
 					</div>
 					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
@@ -49,11 +50,6 @@
 	</div>
 	<div class="tsd-page-title">
 		<div class="container">
-			<ul class="tsd-breadcrumb">
-				<li>
-					<a href="index.html">Globals</a>
-				</li>
-			</ul>
 			<h1>SCTE35 JS</h1>
 		</div>
 	</div>
@@ -61,354 +57,80 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel-group tsd-index-group">
-				<h2>Index</h2>
-				<section class="tsd-panel tsd-index-panel">
-					<div class="tsd-index-content">
-						<section class="tsd-index-section ">
-							<h3>Enumerations</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-enum"><a href="enums/segmentationmessage.html" class="tsd-kind-icon">Segmentation<wbr>Message</a></li>
-								<li class="tsd-kind-enum"><a href="enums/segmentationtypeid.html" class="tsd-kind-icon">Segmentation<wbr>Type<wbr>Id</a></li>
-								<li class="tsd-kind-enum"><a href="enums/segmentationupidtype.html" class="tsd-kind-icon">Segmentation<wbr>Upid<wbr>Type</a></li>
-								<li class="tsd-kind-enum"><a href="enums/splicecommandtype.html" class="tsd-kind-icon">Splice<wbr>Command<wbr>Type</a></li>
-								<li class="tsd-kind-enum"><a href="enums/splicedescriptortag.html" class="tsd-kind-icon">Splice<wbr>Descriptor<wbr>Tag</a></li>
-							</ul>
-						</section>
-						<section class="tsd-index-section ">
-							<h3>Classes</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-class"><a href="classes/scte35.html" class="tsd-kind-icon">SCTE35</a></li>
-							</ul>
-						</section>
-						<section class="tsd-index-section ">
-							<h3>Interfaces</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-interface"><a href="interfaces/iavaildescriptor.html" class="tsd-kind-icon">IAvail<wbr>Descriptor</a></li>
-								<li class="tsd-kind-interface"><a href="interfaces/ibreakduration.html" class="tsd-kind-icon">IBreak<wbr>Duration</a></li>
-								<li class="tsd-kind-interface"><a href="interfaces/idtmfdescriptor.html" class="tsd-kind-icon">IDTMFDescriptor</a></li>
-								<li class="tsd-kind-interface"><a href="interfaces/iscte35.html" class="tsd-kind-icon">ISCTE35</a></li>
-								<li class="tsd-kind-interface"><a href="interfaces/isegmentationdescriptor.html" class="tsd-kind-icon">ISegmentation<wbr>Descriptor</a></li>
-								<li class="tsd-kind-interface"><a href="interfaces/isplicecomponent.html" class="tsd-kind-icon">ISplice<wbr>Component</a></li>
-								<li class="tsd-kind-interface"><a href="interfaces/isplicedescriptorbase.html" class="tsd-kind-icon">ISplice<wbr>Descriptor<wbr>Base</a></li>
-								<li class="tsd-kind-interface"><a href="interfaces/ispliceevent.html" class="tsd-kind-icon">ISplice<wbr>Event</a></li>
-								<li class="tsd-kind-interface"><a href="interfaces/ispliceinfosection.html" class="tsd-kind-icon">ISplice<wbr>Info<wbr>Section</a></li>
-								<li class="tsd-kind-interface"><a href="interfaces/ispliceinsertevent.html" class="tsd-kind-icon">ISplice<wbr>Insert<wbr>Event</a></li>
-								<li class="tsd-kind-interface"><a href="interfaces/ispliceschedule.html" class="tsd-kind-icon">ISplice<wbr>Schedule</a></li>
-								<li class="tsd-kind-interface"><a href="interfaces/isplicescheduleevent.html" class="tsd-kind-icon">ISplice<wbr>Schedule<wbr>Event</a></li>
-								<li class="tsd-kind-interface"><a href="interfaces/isplicetime.html" class="tsd-kind-icon">ISplice<wbr>Time</a></li>
-								<li class="tsd-kind-interface"><a href="interfaces/isplicetimecomponent.html" class="tsd-kind-icon">ISplice<wbr>Time<wbr>Component</a></li>
-								<li class="tsd-kind-interface"><a href="interfaces/itimedescriptor.html" class="tsd-kind-icon">ITime<wbr>Descriptor</a></li>
-								<li class="tsd-kind-interface"><a href="interfaces/iutcsplicecomponent.html" class="tsd-kind-icon">IUTCSplice<wbr>Component</a></li>
-							</ul>
-						</section>
-						<section class="tsd-index-section ">
-							<h3>Type aliases</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-type-alias"><a href="index.html#eventtag" class="tsd-kind-icon">Event<wbr>Tag</a></li>
-								<li class="tsd-kind-type-alias"><a href="index.html#isplicedescriptor" class="tsd-kind-icon">ISplice<wbr>Descriptor</a></li>
-								<li class="tsd-kind-type-alias"><a href="index.html#splicecommand" class="tsd-kind-icon">Splice<wbr>Command</a></li>
-								<li class="tsd-kind-type-alias"><a href="index.html#spliceevent" class="tsd-kind-icon">Splice<wbr>Event</a></li>
-							</ul>
-						</section>
-						<section class="tsd-index-section ">
-							<h3>Variables</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-variable"><a href="index.html#thirty_two_bit_multiplier" class="tsd-kind-icon">THIRTY_<wbr>TWO_<wbr>BIT_<wbr>MULTIPLIER</a></li>
-							</ul>
-						</section>
-						<section class="tsd-index-section ">
-							<h3>Functions</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-function"><a href="index.html#bytestouuid" class="tsd-kind-icon">bytes<wbr>ToUUID</a></li>
-								<li class="tsd-kind-function"><a href="index.html#parsedescriptor" class="tsd-kind-icon">parse<wbr>Descriptor</a></li>
-								<li class="tsd-kind-function"><a href="index.html#shiftthirtytwobits" class="tsd-kind-icon">shift<wbr>Thirty<wbr>Two<wbr>Bits</a></li>
-								<li class="tsd-kind-function"><a href="index.html#splicedescriptor" class="tsd-kind-icon">splice<wbr>Descriptor</a></li>
-							</ul>
-						</section>
-					</div>
-				</section>
-			</section>
-			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Type aliases</h2>
-				<section class="tsd-panel tsd-member tsd-kind-type-alias">
-					<a name="eventtag" class="tsd-anchor"></a>
-					<h3>Event<wbr>Tag</h3>
-					<div class="tsd-signature tsd-kind-icon">Event<wbr>Tag<span class="tsd-signature-symbol">:</span> <a href="enums/splicecommandtype.html#splice_schedule" class="tsd-signature-type">SPLICE_SCHEDULE</a><span class="tsd-signature-symbol"> | </span><a href="enums/splicecommandtype.html#splice_insert" class="tsd-signature-type">SPLICE_INSERT</a></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/Comcast/scte35-js/blob/14eadc5/src/ISCTE35.ts#L97">ISCTE35.ts:97</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-type-alias">
-					<a name="isplicedescriptor" class="tsd-anchor"></a>
-					<h3>ISplice<wbr>Descriptor</h3>
-					<div class="tsd-signature tsd-kind-icon">ISplice<wbr>Descriptor<span class="tsd-signature-symbol">:</span> <a href="interfaces/iavaildescriptor.html" class="tsd-signature-type">IAvailDescriptor</a><span class="tsd-signature-symbol"> | </span><a href="interfaces/idtmfdescriptor.html" class="tsd-signature-type">IDTMFDescriptor</a><span class="tsd-signature-symbol"> | </span><a href="interfaces/isegmentationdescriptor.html" class="tsd-signature-type">ISegmentationDescriptor</a><span class="tsd-signature-symbol"> | </span><a href="interfaces/itimedescriptor.html" class="tsd-signature-type">ITimeDescriptor</a></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/Comcast/scte35-js/blob/14eadc5/src/descriptors.ts#L148">descriptors.ts:148</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-type-alias">
-					<a name="splicecommand" class="tsd-anchor"></a>
-					<h3>Splice<wbr>Command</h3>
-					<div class="tsd-signature tsd-kind-icon">Splice<wbr>Command<span class="tsd-signature-symbol">:</span> <a href="interfaces/ispliceschedule.html" class="tsd-signature-type">ISpliceSchedule</a><span class="tsd-signature-symbol"> | </span><a href="interfaces/ispliceinsertevent.html" class="tsd-signature-type">ISpliceInsertEvent</a><span class="tsd-signature-symbol"> | </span><a href="interfaces/isplicetime.html" class="tsd-signature-type">ISpliceTime</a></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/Comcast/scte35-js/blob/14eadc5/src/ISCTE35.ts#L98">ISCTE35.ts:98</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-type-alias">
-					<a name="spliceevent" class="tsd-anchor"></a>
-					<h3>Splice<wbr>Event</h3>
-					<div class="tsd-signature tsd-kind-icon">Splice<wbr>Event<span class="tsd-signature-symbol">:</span> <a href="interfaces/isplicescheduleevent.html" class="tsd-signature-type">ISpliceScheduleEvent</a><span class="tsd-signature-symbol"> | </span><a href="interfaces/ispliceinsertevent.html" class="tsd-signature-type">ISpliceInsertEvent</a></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/Comcast/scte35-js/blob/14eadc5/src/ISCTE35.ts#L96">ISCTE35.ts:96</a></li>
-						</ul>
-					</aside>
-				</section>
-			</section>
-			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Variables</h2>
-				<section class="tsd-panel tsd-member tsd-kind-variable">
-					<a name="thirty_two_bit_multiplier" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagConst">Const</span> THIRTY_<wbr>TWO_<wbr>BIT_<wbr>MULTIPLIER</h3>
-					<div class="tsd-signature tsd-kind-icon">THIRTY_<wbr>TWO_<wbr>BIT_<wbr>MULTIPLIER<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = Math.pow(2, 32)</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/Comcast/scte35-js/blob/14eadc5/src/util.ts#L21">util.ts:21</a></li>
-						</ul>
-					</aside>
-				</section>
-			</section>
-			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Functions</h2>
-				<section class="tsd-panel tsd-member tsd-kind-function">
-					<a name="bytestouuid" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagConst">Const</span> bytes<wbr>ToUUID</h3>
-					<ul class="tsd-signatures tsd-kind-function">
-						<li class="tsd-signature tsd-kind-icon">bytes<wbr>ToUUID<span class="tsd-signature-symbol">(</span>bytes<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Uint8Array</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/Comcast/scte35-js/blob/14eadc5/src/util.ts#L4">util.ts:4</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Converts a Uint8Array(16) to it&#39;s UUID string</p>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>bytes: <span class="tsd-signature-type">Uint8Array</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function">
-					<a name="parsedescriptor" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagConst">Const</span> parse<wbr>Descriptor</h3>
-					<ul class="tsd-signatures tsd-kind-function">
-						<li class="tsd-signature tsd-kind-icon">parse<wbr>Descriptor<span class="tsd-signature-symbol">(</span>view<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">DataView</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="index.html#isplicedescriptor" class="tsd-signature-type">ISpliceDescriptor</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/Comcast/scte35-js/blob/14eadc5/src/descriptors.ts#L175">descriptors.ts:175</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>NOTE(estobbart): The view.byteLength may have additional data beyond
-										the descriptorLength if there are additional descriptors in the
-									array beyond the one being parse at the byteOffset of the view.</p>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>view: <span class="tsd-signature-type">DataView</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="index.html#isplicedescriptor" class="tsd-signature-type">ISpliceDescriptor</a></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function">
-					<a name="shiftthirtytwobits" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagConst">Const</span> shift<wbr>Thirty<wbr>Two<wbr>Bits</h3>
-					<ul class="tsd-signatures tsd-kind-function">
-						<li class="tsd-signature tsd-kind-icon">shift<wbr>Thirty<wbr>Two<wbr>Bits<span class="tsd-signature-symbol">(</span>byte<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/Comcast/scte35-js/blob/14eadc5/src/util.ts#L26">util.ts:26</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>shifts a single byte by 32 bits</p>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>byte: <span class="tsd-signature-type">number</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function">
-					<a name="splicedescriptor" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagConst">Const</span> splice<wbr>Descriptor</h3>
-					<ul class="tsd-signatures tsd-kind-function">
-						<li class="tsd-signature tsd-kind-icon">splice<wbr>Descriptor<span class="tsd-signature-symbol">(</span>view<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">DataView</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="index.html#isplicedescriptor" class="tsd-signature-type">ISpliceDescriptor</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/Comcast/scte35-js/blob/14eadc5/src/descriptors.ts#L157">descriptors.ts:157</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>10.2 splice_descriptor()</p>
-								</div>
-								<p>NOTE(estobbart): This only supports the base descriptor parsing,
-									Additional payload of the descriptor is handled at the SpliceInfoSection
-								level.</p>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>view: <span class="tsd-signature-type">DataView</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="index.html#isplicedescriptor" class="tsd-signature-type">ISpliceDescriptor</a></h4>
-						</li>
-					</ul>
-				</section>
-			</section>
+			<div class="tsd-panel tsd-typography">
+				<p><img src="https://s3-us-west-2.amazonaws.com/www.blackgsd.com/images/SCTE-35-logo.png#logo" alt="ANSI/SCTE-35 JS"></p>
+				<h2 align="center">ANSI/SCTE35 JS PARSER</h2>
+				<p>SCTE35 tools for parsing in CLI using NodeJS or in a &quot;modern&quot; browser.</p>
+				<a href="#demo" id="demo" style="color: inherit; text-decoration: none;">
+					<h2>Demo</h2>
+				</a>
+				<p>Visit <a href="https://comcast.github.io/scte35-js/">https://comcast.github.io/scte35-js/</a> and paste the following in the text box and hit the <code>Parse</code> button:</p>
+				<p><code>/DBGAAET8J+pAP/wBQb+AAAAAAAwAi5DVUVJQAErgX+/CR9TSUdOQUw6OGlTdzllUWlGVndBQUFBQUFBQUJCQT09NwMDaJ6RZQ==</code></p>
+				<p>In order to deploy changes to the demo read the README found at <a href="https://github.com/Comcast/scte35-js/tree/master/ui">https://github.com/Comcast/scte35-js/tree/master/ui</a>.</p>
+				<a href="#scte35-module" id="scte35-module" style="color: inherit; text-decoration: none;">
+					<h2>SCTE35 Module</h2>
+				</a>
+				<pre><code><span style="color: #008000">// See ISCTE35 for methods &amp; ISpliceInfoSection for results.</span>
+</code></pre>
+				<pre><code class="language-typescript"><span style="color: #000000">    </span><span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">SCTE35</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;scte35&quot;</span><span style="color: #000000">;</span>
+<span style="color: #000000">    </span><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">scte35</span><span style="color: #000000">: </span><span style="color: #267F99">SCTE35</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">SCTE35</span><span style="color: #000000">();</span>
+<span style="color: #000000">    </span><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">result</span><span style="color: #000000"> = </span><span style="color: #001080">scte35</span><span style="color: #000000">.</span><span style="color: #795E26">parseFromB64</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;&lt;base64 string&gt;&quot;</span><span style="color: #000000">);</span>
+</code></pre>
+				<a href="#cli" id="cli" style="color: inherit; text-decoration: none;">
+					<h2>CLI</h2>
+				</a>
+				<p>The parser can be executed from the bin by first installing it globally and then executing the <code>scte35</code> command:</p>
+				<pre><code class="language-bash"><span style="color: #000000">    npm i scte35 -g</span>
+<span style="color: #000000">    scte35</span>
+<span style="color: #000000">    &gt; ? Please provide the SCTE-35 tag that you would like to parse</span>
+</code></pre>
+				<p>Parsing defaults to base 64, however hexadecimal can easily be parsed as well using the <code>--hex</code> flag</p>
+				<pre><code class="language-bash">
+<span style="color: #000000">    </span><span style="color: #008000">#default base64</span>
+<span style="color: #000000">    scte35 /DBGAAET8J+pAP/wBQb+AAAAAAAwAi5DVUVJQAErgX+/CR9TSUdOQUw6OGlTdzllUWlGVndBQUFBQUFBQUJCQT09NwMDaJ6RZQ==</span>
+
+<span style="color: #000000">    </span><span style="color: #008000">#hexadecimal</span>
+<span style="color: #000000">    scte35 --hex fc3046000113f09fa900fff00506fe000000000030022e4355454940012b817fbf091f5349474e414c3a386953773965516946567741414141414141414242413d3d370303689e9165</span>
+
+<span style="color: #000000">    </span><span style="color: #008000">#both will output the formatted JSON</span>
+<span style="color: #000000">    &gt; {</span>
+<span style="color: #000000">        </span><span style="color: #A31515">&quot;tableId&quot;</span><span style="color: #000000">: 252,</span>
+<span style="color: #000000">        </span><span style="color: #A31515">&quot;selectionSyntaxIndicator&quot;</span><span style="color: #000000">: false,</span>
+<span style="color: #000000">        </span><span style="color: #A31515">&quot;privateIndicator&quot;</span><span style="color: #000000">: false,</span>
+<span style="color: #000000">        ...</span>
+<span style="color: #000000">    }</span>
+</code></pre>
+				<a href="#piping" id="piping" style="color: inherit; text-decoration: none;">
+					<h3>Piping</h3>
+				</a>
+				<p>The parser output can be piped into other tools, such as a JSON display utility like <code>fx</code> in order to visualize the JSON object and interact with it.</p>
+				<pre><code class="language-bash"><span style="color: #000000">    npm i -g fx</span>
+<span style="color: #000000">    scte35 /DBGAAET8J+pAP/wBQb+AAAAAAAwAi5DVUVJQAErgX+/CR9TSUdOQUw6OGlTdzllUWlGVndBQUFBQUFBQUJCQT09NwMDaJ6RZQ== | fx</span>
+</code></pre>
+			</div>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 			<nav class="tsd-navigation primary">
 				<ul>
-					<li class="globals current ">
-						<a href="index.html"><em>Globals</em></a>
+					<li class=" ">
+						<a href="modules.html">Exports</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/iscte35.html">ISCTE35</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/descriptors.html">descriptors</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/scte35.html">scte35</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/util.html">util</a>
 					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-enum">
-						<a href="enums/segmentationmessage.html" class="tsd-kind-icon">Segmentation<wbr>Message</a>
-					</li>
-					<li class=" tsd-kind-enum">
-						<a href="enums/segmentationtypeid.html" class="tsd-kind-icon">Segmentation<wbr>Type<wbr>Id</a>
-					</li>
-					<li class=" tsd-kind-enum">
-						<a href="enums/segmentationupidtype.html" class="tsd-kind-icon">Segmentation<wbr>Upid<wbr>Type</a>
-					</li>
-					<li class=" tsd-kind-enum">
-						<a href="enums/splicecommandtype.html" class="tsd-kind-icon">Splice<wbr>Command<wbr>Type</a>
-					</li>
-					<li class=" tsd-kind-enum">
-						<a href="enums/splicedescriptortag.html" class="tsd-kind-icon">Splice<wbr>Descriptor<wbr>Tag</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="classes/scte35.html" class="tsd-kind-icon">SCTE35</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/iavaildescriptor.html" class="tsd-kind-icon">IAvail<wbr>Descriptor</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/ibreakduration.html" class="tsd-kind-icon">IBreak<wbr>Duration</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/idtmfdescriptor.html" class="tsd-kind-icon">IDTMFDescriptor</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/iscte35.html" class="tsd-kind-icon">ISCTE35</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/isegmentationdescriptor.html" class="tsd-kind-icon">ISegmentation<wbr>Descriptor</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/isplicecomponent.html" class="tsd-kind-icon">ISplice<wbr>Component</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/isplicedescriptorbase.html" class="tsd-kind-icon">ISplice<wbr>Descriptor<wbr>Base</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/ispliceevent.html" class="tsd-kind-icon">ISplice<wbr>Event</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/ispliceinfosection.html" class="tsd-kind-icon">ISplice<wbr>Info<wbr>Section</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/ispliceinsertevent.html" class="tsd-kind-icon">ISplice<wbr>Insert<wbr>Event</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/ispliceschedule.html" class="tsd-kind-icon">ISplice<wbr>Schedule</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/isplicescheduleevent.html" class="tsd-kind-icon">ISplice<wbr>Schedule<wbr>Event</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/isplicetime.html" class="tsd-kind-icon">ISplice<wbr>Time</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/isplicetimecomponent.html" class="tsd-kind-icon">ISplice<wbr>Time<wbr>Component</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/itimedescriptor.html" class="tsd-kind-icon">ITime<wbr>Descriptor</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/iutcsplicecomponent.html" class="tsd-kind-icon">IUTCSplice<wbr>Component</a>
-					</li>
-					<li class=" tsd-kind-type-alias">
-						<a href="index.html#eventtag" class="tsd-kind-icon">Event<wbr>Tag</a>
-					</li>
-					<li class=" tsd-kind-type-alias">
-						<a href="index.html#isplicedescriptor" class="tsd-kind-icon">ISplice<wbr>Descriptor</a>
-					</li>
-					<li class=" tsd-kind-type-alias">
-						<a href="index.html#splicecommand" class="tsd-kind-icon">Splice<wbr>Command</a>
-					</li>
-					<li class=" tsd-kind-type-alias">
-						<a href="index.html#spliceevent" class="tsd-kind-icon">Splice<wbr>Event</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="index.html#thirty_two_bit_multiplier" class="tsd-kind-icon">THIRTY_<wbr>TWO_<wbr>BIT_<wbr>MULTIPLIER</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="index.html#bytestouuid" class="tsd-kind-icon">bytes<wbr>ToUUID</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="index.html#parsedescriptor" class="tsd-kind-icon">parse<wbr>Descriptor</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="index.html#shiftthirtytwobits" class="tsd-kind-icon">shift<wbr>Thirty<wbr>Two<wbr>Bits</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="index.html#splicedescriptor" class="tsd-kind-icon">splice<wbr>Descriptor</a>
-					</li>
 				</ul>
 			</nav>
 		</div>
@@ -419,14 +141,18 @@
 		<h2>Legend</h2>
 		<div class="tsd-legend-group">
 			<ul class="tsd-legend">
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
 			</ul>
 			<ul class="tsd-legend">
-				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
 			</ul>
 			<ul class="tsd-legend">
-				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
 			</ul>
 		</div>
 	</div>

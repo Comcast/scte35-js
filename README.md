@@ -26,7 +26,7 @@ In order to deploy changes to the demo read the README found at https://github.c
 
 The parser can be executed from the bin by first installing it globally and then executing the `scte35` command:
 
-```terminal
+```bash
     npm i scte35 -g
     scte35
     > ? Please provide the SCTE-35 tag that you would like to parse
@@ -34,7 +34,7 @@ The parser can be executed from the bin by first installing it globally and then
 
 Parsing defaults to base 64, however hexadecimal can easily be parsed as well using the `--hex` flag
 
-```terminal
+```bash
 
     #default base64
     scte35 /DBGAAET8J+pAP/wBQb+AAAAAAAwAi5DVUVJQAErgX+/CR9TSUdOQUw6OGlTdzllUWlGVndBQUFBQUFBQUJCQT09NwMDaJ6RZQ==
@@ -55,7 +55,7 @@ Parsing defaults to base 64, however hexadecimal can easily be parsed as well us
 
 The parser output can be piped into other tools, such as a JSON display utility like `fx` in order to visualize the JSON object and interact with it.
 
-```terminal
+```bash
     npm i -g fx
     scte35 /DBGAAET8J+pAP/wBQb+AAAAAAAwAi5DVUVJQAErgX+/CR9TSUdOQUw6OGlTdzllUWlGVndBQUFBQUFBQUJCQT09NwMDaJ6RZQ== | fx
 ```
