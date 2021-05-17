@@ -24,7 +24,7 @@
     "@angular/router": "~12.0.0",
     "ngx-json-viewer": "^3.0.2",
     "rxjs": "~7.0.1",
-    "scte35": "^0.3.0",
+    "scte35": "^0.4.0",
     "tslib": "^2.2.0",
     "zone.js": "^0.11.4"
   },
