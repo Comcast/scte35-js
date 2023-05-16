@@ -25,6 +25,7 @@ import {
     ISpliceTime,
     ISpliceInfoSection,
     ISCTE35,
+    ISplicePrivate,
 } from "./ISCTE35";
 import * as descriptors from "./descriptors";
 import * as util from "./util";
@@ -196,6 +197,19 @@ export class SCTE35 implements ISCTE35 {
         return spliceTime;
     }
 
+    /*
+     * 9.7.6. private_command()
+     */
+    private privateCommand(view: DataView): ISplicePrivate {
+        const splicePrivate = {} as ISplicePrivate;
+        const byte = view.getUint32(0)
+        splicePrivate.identifier = byte
+        if (splicePrivate.identifier) {
+            splicePrivate.rawData = view.buffer
+        }
+        return splicePrivate;
+    }
+
     // Table 5 splice_info_section
     private parseSCTE35Data(bytes: Uint8Array): ISpliceInfoSection {
         const sis: ISpliceInfoSection = {};
@@ -247,7 +261,7 @@ export class SCTE35 implements ISCTE35 {
             } else if (sis.spliceCommandType === SpliceCommandType.TIME_SIGNAL) {
                 sis.spliceCommand = this.timeSignal(splice);
             } else if (sis.spliceCommandType === SpliceCommandType.PRIVATE_COMMAND) {
-                console.error(`scte35-js command_type private_command not supported.`);
+                sis.spliceCommand = this.privateCommand(splice)
             }
         }
         offset += sis.spliceCommandLength;

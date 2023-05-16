@@ -51,6 +51,11 @@ export interface ISpliceTime {
     pts?: number;
 }
 
+export interface ISplicePrivate {
+    identifier: number;
+    rawData: ArrayBuffer;
+}
+
 export interface ISCTE35 {
     /**
      * DASH as defined in SCTE 214-1 2016
@@ -95,4 +100,4 @@ export const enum SpliceCommandType {
 
 export type SpliceEvent = ISpliceScheduleEvent | ISpliceInsertEvent;
 export type EventTag = SpliceCommandType.SPLICE_SCHEDULE | SpliceCommandType.SPLICE_INSERT;
-export type SpliceCommand = ISpliceSchedule | ISpliceInsertEvent | ISpliceTime;
+export type SpliceCommand = ISpliceSchedule | ISpliceInsertEvent | ISpliceTime | ISplicePrivate;

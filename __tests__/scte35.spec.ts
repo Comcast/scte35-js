@@ -18,6 +18,7 @@
 
 import { expect } from "chai";
 import { SCTE35 } from "../src/scte35";
+import { ISplicePrivate } from "../src/ISCTE35";
 
 describe("SCTE35", () => {
     const scte35: SCTE35 = new SCTE35();
@@ -48,6 +49,14 @@ describe("SCTE35", () => {
                 expect(spliceInfo.descriptors.length).to.eq(2);
             }
         });
+
+        it("should parse scte-35 with private_command()", () => {
+            const base64 = "/DApAAAAAAAAAP/wGP8AAAABJHtwYXlsb2FkIGluIGJhc2U2NH0AAI0/CKA="
+            const spliceInfo = scte35.parseFromB64(base64)
+            const splicePrivate = spliceInfo.spliceCommand as ISplicePrivate
+            expect(splicePrivate.identifier).to.equal(1)
+            expect(splicePrivate.rawData).to.not.equal(undefined);
+        })
 
         /*tslint:disable*/
         //TODO: write unit tests for additional property checking on these base64 string
