@@ -100,4 +100,4 @@ export const enum SpliceCommandType {
 
 export type SpliceEvent = ISpliceScheduleEvent | ISpliceInsertEvent;
 export type EventTag = SpliceCommandType.SPLICE_SCHEDULE | SpliceCommandType.SPLICE_INSERT;
-export type SpliceCommand = ISpliceSchedule | ISpliceInsertEvent | ISpliceTime;
+export type SpliceCommand = ISpliceSchedule | ISpliceInsertEvent | ISpliceTime | ISplicePrivate;
