@@ -51,6 +51,11 @@ export interface ISpliceTime {
     pts?: number;
 }
 
+export interface ISplicePrivate {
+    identifier: number;
+    rawData: ArrayBuffer;
+}
+
 export interface ISCTE35 {
     /**
      * DASH as defined in SCTE 214-1 2016
