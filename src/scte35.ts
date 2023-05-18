@@ -202,10 +202,11 @@ export class SCTE35 implements ISCTE35 {
      */
     private privateCommand(view: DataView): ISplicePrivate {
         const splicePrivate = {} as ISplicePrivate;
-        const byte = view.getUint32(0)
-        splicePrivate.identifier = byte
+        const byte = view.getUint32(0);
+        let payload = new Uint8Array(view.buffer, view.byteOffset + 4, view.byteLength - 4);
+        splicePrivate.identifier = byte;
         if (splicePrivate.identifier) {
-            splicePrivate.rawData = view.buffer
+            splicePrivate.rawData = payload;
         }
         return splicePrivate;
     }
@@ -261,7 +262,7 @@ export class SCTE35 implements ISCTE35 {
             } else if (sis.spliceCommandType === SpliceCommandType.TIME_SIGNAL) {
                 sis.spliceCommand = this.timeSignal(splice);
             } else if (sis.spliceCommandType === SpliceCommandType.PRIVATE_COMMAND) {
-                sis.spliceCommand = this.privateCommand(splice)
+                sis.spliceCommand = this.privateCommand(splice);
             }
         }
         offset += sis.spliceCommandLength;

@@ -51,12 +51,14 @@ describe("SCTE35", () => {
         });
 
         it("should parse scte-35 with private_command()", () => {
-            const base64 = "/DApAAAAAAAAAP/wGP8AAAABJHtwYXlsb2FkIGluIGJhc2U2NH0AAI0/CKA="
-            const spliceInfo = scte35.parseFromB64(base64)
-            const splicePrivate = spliceInfo.spliceCommand as ISplicePrivate
-            expect(splicePrivate.identifier).to.equal(1)
-            expect(splicePrivate.rawData).to.not.equal(undefined);
-        })
+            const base64 = "/DA5AAAAAAAAAP/wKP8AAAABZXdvZ0ltMWxjM05oWjJVaU9pQWlZV1JrVjJsa1oyVjBJZ3A5AAAUDmUl";
+            const spliceInfo = scte35.parseFromB64(base64);
+            const splicePrivate = spliceInfo.spliceCommand as ISplicePrivate;
+            expect(splicePrivate.identifier).to.equal(1);
+            expect(String.fromCharCode(...new Uint8Array(splicePrivate.rawData))).to.equal(
+                "ewogIm1lc3NhZ2UiOiAiYWRkV2lkZ2V0Igp9"
+            );
+        });
 
         /*tslint:disable*/
         //TODO: write unit tests for additional property checking on these base64 string
