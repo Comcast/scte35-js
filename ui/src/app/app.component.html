@@ -22,7 +22,7 @@
     <form class="form">
       <mat-form-field class="full-width">
         <mat-label>SCTE35 TAG</mat-label>
-        <input matInput [formControl]="scte35FormControl" [errorStateMatcher]="matcher"
+        <input matInput [formControl]="scte35FormControl"
           placeholder="Ex. /DBGAAET8J+pAP/wBQb+AAAAAAAwAi5DVUVJQAErgX+/CR9TSUdOQUw6OGlTdzllUWlGVndBQUFBQUFBQUJCQT09NwMDaJ6RZQ==">
         <mat-error *ngIf="scte35FormControl.hasError('required')">
           A valid SCTE35 is <strong>required</strong>
