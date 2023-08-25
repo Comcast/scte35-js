@@ -1,6 +1,6 @@
 {
     "name": "scte35",
-    "version": "0.4.0",
+    "version": "0.5.0",
     "description": "",
     "main": "build/scte35.js",
     "types": "build/scte35.d.ts",
@@ -15,7 +15,7 @@
         "beautify": "prettier --write \"**/*.{json,css,scss,yml,ts,js}\"",
         "clean": "rimraf build",
         "cover": "nyc npm test",
-        "docs": "typedoc --name 'SCTE35 JS' --out jsdoc ./src",
+        "docs": "typedoc --name 'SCTE35 JS' --entryPointStrategy expand ./src --out jsdoc ./src",
         "lint": "eslint . --ext .ts",
         "test": "mocha --require ts-node/register --watch-extensions ts,tsx __tests__/*.spec.ts",
         "build": "npm run clean && tsc",
@@ -57,7 +57,7 @@
         "rimraf": "^5.0.1",
         "source-map-support": "^0.5.21",
         "ts-node": "^10.9.1",
-        "typedoc": "^0.24.8",
+        "typedoc": "^0.25.0",
         "typescript": "^5.2.2"
     },
     "dependencies": {
