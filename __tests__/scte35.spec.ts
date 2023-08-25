@@ -56,7 +56,7 @@ describe("SCTE35", () => {
             const splicePrivate = spliceInfo.spliceCommand as ISplicePrivate;
             expect(splicePrivate.identifier).to.equal(1);
             expect(String.fromCharCode(...new Uint8Array(splicePrivate.rawData))).to.equal(
-                "ewogIm1lc3NhZ2UiOiAiYWRkV2lkZ2V0Igp9"
+                "ewogIm1lc3NhZ2UiOiAiYWRkV2lkZ2V0Igp9",
             );
         });
 
@@ -101,7 +101,7 @@ describe("SCTE35", () => {
             const message =
                 "V2UgYXJlIGxvb2tpbmcgZm9yIGNvbnRyaWJ1dG9ycyB0aGF0IHdhbnQgdG8gaGVscCBpbXByb3ZlIHRoaXMgbGlicmFyeSwgd2FudCB0byBoZWxwPw==";
             expect((scte35 as any).parseBase64(message)).to.equal(
-                "We are looking for contributors that want to help improve this library, want to help?"
+                "We are looking for contributors that want to help improve this library, want to help?",
             );
         });
     });

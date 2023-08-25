@@ -16,7 +16,7 @@ function parseArgumentsIntoOptions(rawArgs) {
         },
         {
             argv: rawArgs.slice(2),
-        }
+        },
     );
     return {
         help: args["--help"] || false,
@@ -48,10 +48,10 @@ export async function cli(args) {
         console.log("Useage: scte35 [options] [arguments]\n");
         console.log("Examples:\n");
         console.log(
-            "\tscte35 --hex fc3046000113f09fa900fff00506fe000000000030022e4355454940012b817fbf091f5349474e414c3a386953773965516946567741414141414141414242413d3d370303689e9165\n"
+            "\tscte35 --hex fc3046000113f09fa900fff00506fe000000000030022e4355454940012b817fbf091f5349474e414c3a386953773965516946567741414141414141414242413d3d370303689e9165\n",
         );
         console.log(
-            "\tscte35 /DBGAAET8J+pAP/wBQb+AAAAAAAwAi5DVUVJQAErgX+/CR9TSUdOQUw6OGlTdzllUWlGVndBQUFBQUFBQUJCQT09NwMDaJ6RZQ==\n"
+            "\tscte35 /DBGAAET8J+pAP/wBQb+AAAAAAAwAi5DVUVJQAErgX+/CR9TSUdOQUw6OGlTdzllUWlGVndBQUFBQUFBQUJCQT09NwMDaJ6RZQ==\n",
         );
         console.table([
             { Option: "--help, -h", Description: "print node command line options (currently set)" },
