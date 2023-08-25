@@ -253,29 +253,28 @@ export class SCTE35 implements ISCTE35 {
 
         sis.spliceCommandType = view.getUint8(offset++);
 
-        // Workaround for spliceCommandLength =0x0fff, which is a legacy fallback 
+        // Workaround for spliceCommandLength =0x0fff, which is a legacy fallback
         if (sis.spliceCommandLength === 0x0fff) {
             if (sis.spliceCommandType === SpliceCommandType.TIME_SIGNAL) {
-                let time_specified_flag = view.getUint8(offset) & 0x80;
+                const time_specified_flag = view.getUint8(offset) & 0x80;
                 sis.spliceCommandLength = time_specified_flag ? 5 : 1;
             } else if (sis.spliceCommandType === SpliceCommandType.SPLICE_NULL) {
                 sis.spliceCommandLength = 0;
             } else if (sis.spliceCommandType === SpliceCommandType.SPLICE_INSERT) {
                 let io = offset; // Our cursor parsing the splice_insert
                 io += 4;
-                let splice_event_cancel_indicator = view.getUint8(io++) & 0x80;
+                const splice_event_cancel_indicator = view.getUint8(io++) & 0x80;
                 if (!splice_event_cancel_indicator) {
-                    let flags = view.getUint8(io++);
+                    const flags = view.getUint8(io++);
                     // Decode flags
-                    let splice_immediate_flag = flags & 0x10;
-                    let duration_flag = flags & 0x20;
-                    let program_splice_flag = flags & 0x40;
-                    let out_of_network_indicator = flags & 0x80;
+                    const splice_immediate_flag = flags & 0x10;
+                    const duration_flag = flags & 0x20;
+                    const program_splice_flag = flags & 0x40;
                     if (program_splice_flag && !splice_immediate_flag) {
                         io += 5;
                     }
                     if (!program_splice_flag) {
-                        let component_count = view.getUint8(io++);
+                        const component_count = view.getUint8(io++);
                         io += component_count;
                         io += splice_immediate_flag ? 0 : component_count * 5;
                     }
@@ -286,7 +285,7 @@ export class SCTE35 implements ISCTE35 {
                     sis.spliceCommandLength = io - offset;
                 }
             } else {
-		// SPLICE_SCHEDULE, PRIVEATE_COMMAND not support without length
+                // SPLICE_SCHEDULE, PRIVATE_COMMAND not supported without length
                 console.error(`scte35-js Unspecified length not supported in this context`);
             }
         }

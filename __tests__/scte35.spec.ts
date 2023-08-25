@@ -109,38 +109,36 @@ describe("SCTE35", () => {
 
     describe("Legacy splice_command_length==0x0fff", () => {
         it("should parse time_signal", () => {
-            const base64 =
-		"/DA6AAAAAAAAAP///wb+GIZQCAAkAiJDVUVJAAv9L3//AAFeMHAMDkRJU0M2NzQ5NjNfOTk4MAEBsXXbjg";
+            const base64 = "/DA6AAAAAAAAAP///wb+GIZQCAAkAiJDVUVJAAv9L3//AAFeMHAMDkRJU0M2NzQ5NjNfOTk4MAEBsXXbjg";
             const spliceInfo = scte35.parseFromB64(base64);
             expect(spliceInfo.spliceCommandType).to.equal(SpliceCommandType.TIME_SIGNAL);
-	    const spliceCommand = spliceInfo.spliceCommand as ISpliceTime;
-	    expect(spliceCommand.pts).to.equal(411455496);
+            const spliceCommand = spliceInfo.spliceCommand as ISpliceTime;
+            expect(spliceCommand.pts).to.equal(411455496);
 
             expect(spliceInfo.descriptors).to.not.equal(undefined);
             expect(spliceInfo.descriptors?.length).to.equal(1);
-	    if (spliceInfo.descriptors) {
-            	expect(spliceInfo.descriptors[0].indentifier).to.equal("CUEI");
-		const spliceDescriptor=(spliceInfo.descriptors[0] as descriptors.ISegmentationDescriptor);
-            	expect(spliceDescriptor.segmentationDuration).to.eq(22950000);
-            	expect(spliceDescriptor.segmentationTypeId).to.eq(48);
-	    }
+            if (spliceInfo.descriptors) {
+                expect(spliceInfo.descriptors[0].indentifier).to.equal("CUEI");
+                const spliceDescriptor = spliceInfo.descriptors[0] as descriptors.ISegmentationDescriptor;
+                expect(spliceDescriptor.segmentationDuration).to.eq(22950000);
+                expect(spliceDescriptor.segmentationTypeId).to.eq(48);
+            }
         });
 
         it("should parse splice_insert", () => {
-            const base64 =
-		"/DAxAAAAAAAAAP///wUAhcJPf+/+zBS4Ln4AUmXAAAAAAAAMAQpDVUVJAJ8wNDgq0FP4ig";
+            const base64 = "/DAxAAAAAAAAAP///wUAhcJPf+/+zBS4Ln4AUmXAAAAAAAAMAQpDVUVJAJ8wNDgq0FP4ig";
             const spliceInfo = scte35.parseFromB64(base64);
             expect(spliceInfo.spliceCommandType).to.equal(SpliceCommandType.SPLICE_INSERT);
-	    const spliceCommand = spliceInfo.spliceCommand as ISpliceInsertEvent;
-	    expect(spliceCommand.spliceEventId).to.equal(8766031);
-	    expect(spliceCommand.spliceTime?.pts).to.equal(3423909934);
-	    expect(spliceCommand.breakDuration?.duration).to.equal(5400000);
+            const spliceCommand = spliceInfo.spliceCommand as ISpliceInsertEvent;
+            expect(spliceCommand.spliceEventId).to.equal(8766031);
+            expect(spliceCommand.spliceTime?.pts).to.equal(3423909934);
+            expect(spliceCommand.breakDuration?.duration).to.equal(5400000);
 
             expect(spliceInfo.descriptors).to.not.equal(undefined);
             expect(spliceInfo.descriptors?.length).to.equal(1);
-	    if (spliceInfo.descriptors) {
-            	expect(spliceInfo.descriptors[0].indentifier).to.equal("CUEI");
-	    }
+            if (spliceInfo.descriptors) {
+                expect(spliceInfo.descriptors[0].indentifier).to.equal("CUEI");
+            }
         });
     });
 });
