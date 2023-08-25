@@ -6,8 +6,8 @@ describe('AppComponent', () => {
     const app = new AppComponent();
     expect(app).toBeTruthy();
   });
-  it(`should have as title 'SCTE35-JS PARSER DEMO (v0.4.0)'`, () => {
+  it(`should have as title 'SCTE35-JS PARSER DEMO (v0.5.0)'`, () => {
     const app = new AppComponent();
-    expect(app.title).toEqual('SCTE35-JS PARSER DEMO (v0.4.0)');
+    expect(app.title).toEqual('SCTE35-JS PARSER DEMO (v0.5.0)');
   });
 });
