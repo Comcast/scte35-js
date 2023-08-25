@@ -10,7 +10,7 @@ import { SCTE35 } from 'scte35';
 
 export class AppComponent {
   scte35: SCTE35 = new SCTE35();
-  title = 'SCTE35-JS PARSER DEMO (v0.4.0)';
+  title = 'SCTE35-JS PARSER DEMO (v0.5.0)';
   scte35format = 'Base64';
   formats: string[] = ['Base64', 'Hexadecimal'];
   scte35FormControl = new FormControl('', [
