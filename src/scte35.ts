@@ -203,7 +203,7 @@ export class SCTE35 implements ISCTE35 {
     private privateCommand(view: DataView): ISplicePrivate {
         const splicePrivate = {} as ISplicePrivate;
         const byte = view.getUint32(0);
-        let payload = new Uint8Array(view.buffer, view.byteOffset + 4, view.byteLength - 4);
+        const payload = new Uint8Array(view.buffer, view.byteOffset + 4, view.byteLength - 4);
         splicePrivate.identifier = byte;
         if (splicePrivate.identifier) {
             splicePrivate.rawData = payload;
