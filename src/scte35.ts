@@ -25,6 +25,7 @@ import {
     ISpliceTime,
     ISpliceInfoSection,
     ISCTE35,
+    ISplicePrivate,
 } from "./ISCTE35";
 import * as descriptors from "./descriptors";
 import * as util from "./util";
@@ -45,13 +46,13 @@ export class SCTE35 implements ISCTE35 {
         const bytes = Uint8Array.from(
             this.parseBase64(b64)
                 .split("")
-                .map((c) => c.charCodeAt(0))
+                .map((c) => c.charCodeAt(0)),
         );
         return this.parseSCTE35Data(bytes);
     }
 
     /**
-     * Parses SCTE35 data from a hexidecimal encoded string
+     * Parses SCTE35 data from a hexadecimal encoded string
      * @param hex {string}
      */
     public parseFromHex(hex: string): ISpliceInfoSection {
@@ -153,7 +154,7 @@ export class SCTE35 implements ISCTE35 {
             offset += this.spliceEvent(
                 event,
                 new DataView(view.buffer, view.byteOffset + offset),
-                SpliceCommandType.SPLICE_SCHEDULE
+                SpliceCommandType.SPLICE_SCHEDULE,
             );
             schedule.spliceEvents.push(event);
         }
@@ -196,6 +197,20 @@ export class SCTE35 implements ISCTE35 {
         return spliceTime;
     }
 
+    /*
+     * 9.7.6. private_command()
+     */
+    private privateCommand(view: DataView): ISplicePrivate {
+        const splicePrivate = {} as ISplicePrivate;
+        const byte = view.getUint32(0);
+        const payload = new Uint8Array(view.buffer, view.byteOffset + 4, view.byteLength - 4);
+        splicePrivate.identifier = byte;
+        if (splicePrivate.identifier) {
+            splicePrivate.rawData = payload;
+        }
+        return splicePrivate;
+    }
+
     // Table 5 splice_info_section
     private parseSCTE35Data(bytes: Uint8Array): ISpliceInfoSection {
         const sis: ISpliceInfoSection = {};
@@ -211,7 +226,7 @@ export class SCTE35 implements ISCTE35 {
         sis.sectionLength = ((byte & 0x0f) << 8) + view.getUint8(offset++);
         if (sis.sectionLength + 3 !== bytes.byteLength) {
             throw new Error(
-                `Binary read error sectionLength: ${sis.sectionLength} + 3 !== data.length: ${bytes.byteLength}`
+                `Binary read error sectionLength: ${sis.sectionLength} + 3 !== data.length: ${bytes.byteLength}`,
             );
         }
 
@@ -284,7 +299,7 @@ export class SCTE35 implements ISCTE35 {
             } else if (sis.spliceCommandType === SpliceCommandType.TIME_SIGNAL) {
                 sis.spliceCommand = this.timeSignal(splice);
             } else if (sis.spliceCommandType === SpliceCommandType.PRIVATE_COMMAND) {
-                console.error(`scte35-js command_type private_command not supported.`);
+                sis.spliceCommand = this.privateCommand(splice);
             }
         }
         offset += sis.spliceCommandLength;
@@ -306,7 +321,7 @@ export class SCTE35 implements ISCTE35 {
                 }
             } catch (error) {
                 console.error(
-                    `scte35-js Error reading descriptor @ ${offset}, ignoring remaing bytes: ${bytesToRead} in loop.`
+                    `scte35-js Error reading descriptor @ ${offset}, ignoring remaining bytes: ${bytesToRead} in loop.`,
                 );
                 console.error(error);
                 offset += bytesToRead;

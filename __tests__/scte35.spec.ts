@@ -18,7 +18,7 @@
 
 import { expect } from "chai";
 import { SCTE35 } from "../src/scte35";
-import { ISpliceInsertEvent, ISpliceTime, SpliceCommandType } from "../src/ISCTE35";
+import { ISpliceInsertEvent, ISpliceTime, ISplicePrivate, SpliceCommandType } from "../src/ISCTE35";
 import * as descriptors from "../src/descriptors";
 
 describe("SCTE35", () => {
@@ -50,6 +50,17 @@ describe("SCTE35", () => {
                 expect(spliceInfo.descriptors.length).to.eq(2);
             }
         });
+
+        it("should parse scte-35 with private_command()", () => {
+            const base64 = "/DA5AAAAAAAAAP/wKP8AAAABZXdvZ0ltMWxjM05oWjJVaU9pQWlZV1JrVjJsa1oyVjBJZ3A5AAAUDmUl";
+            const spliceInfo = scte35.parseFromB64(base64);
+            const splicePrivate = spliceInfo.spliceCommand as ISplicePrivate;
+            expect(splicePrivate.identifier).to.equal(1);
+            expect(String.fromCharCode(...new Uint8Array(splicePrivate.rawData))).to.equal(
+                "ewogIm1lc3NhZ2UiOiAiYWRkV2lkZ2V0Igp9",
+            );
+        });
+
         /*tslint:disable*/
         //TODO: write unit tests for additional property checking on these base64 string
         // it("should parse from another base64", () => {
@@ -91,10 +102,11 @@ describe("SCTE35", () => {
             const message =
                 "V2UgYXJlIGxvb2tpbmcgZm9yIGNvbnRyaWJ1dG9ycyB0aGF0IHdhbnQgdG8gaGVscCBpbXByb3ZlIHRoaXMgbGlicmFyeSwgd2FudCB0byBoZWxwPw==";
             expect((scte35 as any).parseBase64(message)).to.equal(
-                "We are looking for contributors that want to help improve this library, want to help?"
+                "We are looking for contributors that want to help improve this library, want to help?",
             );
         });
     });
+
     describe("Legacy splice_command_length==0x0fff", () => {
         it("should parse time_signal", () => {
             const base64 =
