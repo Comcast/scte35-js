@@ -18,6 +18,7 @@
 
 import { expect } from "chai";
 import { SCTE35 } from "../src/scte35";
+import { ISplicePrivate } from "../src/ISCTE35";
 
 describe("SCTE35", () => {
     const scte35: SCTE35 = new SCTE35();
@@ -47,6 +48,16 @@ describe("SCTE35", () => {
             if (spliceInfo.descriptors) {
                 expect(spliceInfo.descriptors.length).to.eq(2);
             }
+        });
+
+        it("should parse scte-35 with private_command()", () => {
+            const base64 = "/DA5AAAAAAAAAP/wKP8AAAABZXdvZ0ltMWxjM05oWjJVaU9pQWlZV1JrVjJsa1oyVjBJZ3A5AAAUDmUl";
+            const spliceInfo = scte35.parseFromB64(base64);
+            const splicePrivate = spliceInfo.spliceCommand as ISplicePrivate;
+            expect(splicePrivate.identifier).to.equal(1);
+            expect(String.fromCharCode(...new Uint8Array(splicePrivate.rawData))).to.equal(
+                "ewogIm1lc3NhZ2UiOiAiYWRkV2lkZ2V0Igp9"
+            );
         });
 
         /*tslint:disable*/
