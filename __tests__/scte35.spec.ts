@@ -118,7 +118,7 @@ describe("SCTE35", () => {
             expect(spliceInfo.descriptors).to.not.equal(undefined);
             expect(spliceInfo.descriptors?.length).to.equal(1);
             if (spliceInfo.descriptors) {
-                expect(spliceInfo.descriptors[0].indentifier).to.equal("CUEI");
+                expect(spliceInfo.descriptors[0].identifier).to.equal("CUEI");
                 const spliceDescriptor = spliceInfo.descriptors[0] as descriptors.ISegmentationDescriptor;
                 expect(spliceDescriptor.segmentationDuration).to.eq(22950000);
                 expect(spliceDescriptor.segmentationTypeId).to.eq(48);
@@ -137,7 +137,7 @@ describe("SCTE35", () => {
             expect(spliceInfo.descriptors).to.not.equal(undefined);
             expect(spliceInfo.descriptors?.length).to.equal(1);
             if (spliceInfo.descriptors) {
-                expect(spliceInfo.descriptors[0].indentifier).to.equal("CUEI");
+                expect(spliceInfo.descriptors[0].identifier).to.equal("CUEI");
             }
         });
     });
