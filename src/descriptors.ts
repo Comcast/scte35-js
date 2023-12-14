@@ -29,7 +29,7 @@ export const enum SpliceDescriptorTag {
 export interface ISpliceDescriptorBase {
     spliceDescriptorTag: SpliceDescriptorTag;
     descriptorLength: number;
-    indentifier: string; // CUEI
+    identifier: string; // CUEI
 }
 
 /**
@@ -118,7 +118,7 @@ export interface ISegmentationDescriptor extends ISpliceDescriptorBase {
     webDeliveryAllowedFlag?: boolean;
     noRegionalBlackoutFlag?: boolean;
     archiveAllowedFlag?: boolean;
-    deviceResctrictions?: SegmentationMessage;
+    deviceRestrictions?: SegmentationMessage;
     componentCount?: number;
     // component Tag, pts_offset
     segmentationDuration?: number;
@@ -159,9 +159,9 @@ const spliceDescriptor = (view: DataView): ISpliceDescriptor => {
     let offset = 0;
     descriptor.spliceDescriptorTag = view.getUint8(offset++);
     descriptor.descriptorLength = view.getUint8(offset++);
-    descriptor.indentifier = "";
-    while (descriptor.indentifier.length < 4) {
-        descriptor.indentifier += String.fromCharCode(view.getUint8(offset++));
+    descriptor.identifier = "";
+    while (descriptor.identifier.length < 4) {
+        descriptor.identifier += String.fromCharCode(view.getUint8(offset++));
     }
 
     return descriptor;
@@ -174,7 +174,7 @@ const spliceDescriptor = (view: DataView): ISpliceDescriptor => {
  */
 export const parseDescriptor = (view: DataView): ISpliceDescriptor => {
     const descriptor = spliceDescriptor(view);
-    // splice_descriptor_tag, descriptor_length, & indentifier are the first 6 bytes
+    // splice_descriptor_tag, descriptor_length, & identifier are the first 6 bytes
     let offset = 6;
 
     // TODO: parse out the descriptors appropriately using descriptor methods
@@ -203,7 +203,7 @@ export const parseDescriptor = (view: DataView): ISpliceDescriptor => {
                 segmentationDescriptor.webDeliveryAllowedFlag = !!(tmpByte & 0x10);
                 segmentationDescriptor.noRegionalBlackoutFlag = !!(tmpByte & 0x08);
                 segmentationDescriptor.archiveAllowedFlag = !!(tmpByte & 0x04);
-                segmentationDescriptor.deviceResctrictions = tmpByte & 0x03;
+                segmentationDescriptor.deviceRestrictions = tmpByte & 0x03;
             }
 
             if (!segmentationDescriptor.programSegmentationFlag) {

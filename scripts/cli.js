@@ -45,7 +45,7 @@ async function promptForMissingOptions(options) {
 export async function cli(args) {
     let options = parseArgumentsIntoOptions(args);
     if (options.help) {
-        console.log("Useage: scte35 [options] [arguments]\n");
+        console.log("Usage: scte35 [options] [arguments]\n");
         console.log("Examples:\n");
         console.log(
             "\tscte35 --hex fc3046000113f09fa900fff00506fe000000000030022e4355454940012b817fbf091f5349474e414c3a386953773965516946567741414141414141414242413d3d370303689e9165\n",
