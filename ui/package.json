@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ng build --configuration production --output-path='../docs' --base-href='https://comcast.github.io/project/'",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
