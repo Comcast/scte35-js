@@ -1,4 +1,4 @@
-![ANSI/SCTE-35 JS](docs/scte35-logo.png)
+![ANSI/SCTE-35 JS](assets/scte35-logo.png)
 
 <h2 align="center">ANSI/SCTE35 JS PARSER</h2>
 
