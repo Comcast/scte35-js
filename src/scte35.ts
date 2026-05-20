@@ -206,7 +206,9 @@ export class SCTE35 implements ISCTE35 {
         const payload = new Uint8Array(view.buffer, view.byteOffset + 4, view.byteLength - 4);
         splicePrivate.identifier = byte;
         if (splicePrivate.identifier) {
-            splicePrivate.rawData = payload;
+            const rawData = new ArrayBuffer(payload.byteLength);
+            new Uint8Array(rawData).set(payload);
+            splicePrivate.rawData = rawData;
         }
         return splicePrivate;
     }
@@ -324,7 +326,6 @@ export class SCTE35 implements ISCTE35 {
                 );
                 console.error(error);
                 offset += bytesToRead;
-                bytesToRead = 0;
             }
         }
 
