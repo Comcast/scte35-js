@@ -26,7 +26,7 @@ The Angular demo in `ui/` has its own `package.json` and release flow. Root depe
 
 ## Release
 
-The npm package publishes the compiled files from `build/`, so make releases from a clean branch after validating the root project:
+The npm package publishes a small allowlisted set of files: compiled output from `build/`, generated type declarations, CLI scripts, package metadata, license/notice files, the README, and assets used by the README. Make releases from a clean branch after validating the root project:
 
 ```bash
 npm install
@@ -36,6 +36,8 @@ npm run build
 npm run docs
 npm audit
 ```
+
+Commit the version bump and regenerated `jsdoc/` output before merging the release branch. The publish step does not regenerate docs.
 
 Update the package version with `npm version patch`, `npm version minor`, or `npm version major`, then inspect the package before publishing:
 
@@ -50,7 +52,7 @@ When the dry-run looks right, publish from the root directory:
 npm publish
 ```
 
-The publish lifecycle runs `prepublishOnly` first, which executes `npm run build && npm run docs`. After publishing, `postpublish` runs `npm run clean`, removing the generated `build/` directory from the working tree.
+The publish lifecycle runs `prepublishOnly` first, which executes `npm run build`. After publishing, `postpublish` runs `npm run clean`, removing the generated `build/` directory from the working tree.
 
 ## Demo
 
