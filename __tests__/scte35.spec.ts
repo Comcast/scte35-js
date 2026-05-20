@@ -18,11 +18,82 @@
 
 import { expect } from "chai";
 import { SCTE35 } from "../src/scte35";
-import { ISpliceInsertEvent, ISpliceTime, ISplicePrivate, SpliceCommandType } from "../src/ISCTE35";
+import {
+    ISpliceInsertEvent,
+    ISpliceTime,
+    ISplicePrivate,
+    ISpliceSchedule,
+    SpliceCommandType,
+} from "../src/ISCTE35";
 import * as descriptors from "../src/descriptors";
+import * as util from "../src/util";
+
+const CUEI = [0x43, 0x55, 0x45, 0x49];
+
+const toView = (bytes: number[]): DataView => new DataView(Uint8Array.from(bytes).buffer);
+
+const makeDescriptor = (tag: number, body: number[]): number[] => [tag, CUEI.length + body.length, ...CUEI, ...body];
+
+const makeSection = (
+    spliceCommandType: SpliceCommandType,
+    spliceCommand: number[],
+    options: {
+        descriptorLoop?: number[];
+        encryptedByte?: number;
+        spliceCommandLength?: number;
+        trailing?: number[];
+    } = {},
+): number[] => {
+    const descriptorLoop = options.descriptorLoop || [];
+    const trailing = options.trailing || [];
+    const spliceCommandLength = options.spliceCommandLength ?? spliceCommand.length;
+    const sectionLength = 11 + spliceCommand.length + 2 + descriptorLoop.length + 4 + trailing.length;
+
+    return [
+        0xfc,
+        (sectionLength >> 8) & 0x0f,
+        sectionLength & 0xff,
+        0x00,
+        options.encryptedByte || 0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0xff,
+        0xf0 | ((spliceCommandLength >> 8) & 0x0f),
+        spliceCommandLength & 0xff,
+        spliceCommandType,
+        ...spliceCommand,
+        (descriptorLoop.length >> 8) & 0xff,
+        descriptorLoop.length & 0xff,
+        ...descriptorLoop,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        ...trailing,
+    ];
+};
+
+const parseBytes = (scte35: SCTE35, bytes: number[]) => (scte35 as any).parseSCTE35Data(Uint8Array.from(bytes));
 
 describe("SCTE35", () => {
     const scte35: SCTE35 = new SCTE35();
+    let consoleWarn: typeof console.warn;
+    let consoleError: typeof console.error;
+
+    before(() => {
+        consoleWarn = console.warn;
+        consoleError = console.error;
+        console.warn = () => undefined;
+        console.error = () => undefined;
+    });
+
+    after(() => {
+        console.warn = consoleWarn;
+        console.error = consoleError;
+    });
 
     describe("PARSE BASE 64", () => {
         it("should parse from base64", () => {
@@ -90,6 +161,11 @@ describe("SCTE35", () => {
             expect((spliceInfo.spliceCommand as any).spliceTime.specified).to.eql(true);
             expect((spliceInfo.spliceCommand as any).breakDuration.duration).to.eql(5400000);
         });
+
+        it("should reject hex data with an invalid section length", () => {
+            expect(() => scte35.parseFromHex("not-hex-data")).to.throw();
+            expect(() => scte35.parseFromHex("zz")).to.throw();
+        });
     });
 
     describe("UTILITIES", () => {
@@ -103,6 +179,301 @@ describe("SCTE35", () => {
                 "V2UgYXJlIGxvb2tpbmcgZm9yIGNvbnRyaWJ1dG9ycyB0aGF0IHdhbnQgdG8gaGVscCBpbXByb3ZlIHRoaXMgbGlicmFyeSwgd2FudCB0byBoZWxwPw==";
             expect((scte35 as any).parseBase64(message)).to.equal(
                 "We are looking for contributors that want to help improve this library, want to help?",
+            );
+        });
+
+        it("should convert bytes to UUID strings", () => {
+            const uuidBytes = Uint8Array.from([
+                0x00, 0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77, 0x88, 0x99, 0xaa, 0xbb, 0xcc, 0xdd, 0xee, 0xff,
+            ]);
+
+            expect(util.bytesToUUID(uuidBytes)).to.equal("00112233-4455-6677-8899-aabbccddeeff");
+        });
+
+        it("should reject UUID byte arrays with the wrong size", () => {
+            expect(() => util.bytesToUUID(Uint8Array.from([0x00]))).to.throw(
+                "scte35-js Uint8Array uuid bad size: 1",
+            );
+        });
+
+        it("should shift a byte by 32 bits", () => {
+            expect(util.shiftThirtyTwoBits(2)).to.equal(8589934592);
+        });
+    });
+
+    describe("DESCRIPTORS", () => {
+        it("should parse descriptor tags that are currently skipped", () => {
+            const avail = descriptors.parseDescriptor(toView(makeDescriptor(descriptors.SpliceDescriptorTag.AVAIL_DESCRIPTOR, [0, 0, 0, 1])));
+            const dtmf = descriptors.parseDescriptor(
+                toView(makeDescriptor(descriptors.SpliceDescriptorTag.DTMF_DESCRIPTOR, [0x05, 0x21, 0x31, 0x32])),
+            );
+            const time = descriptors.parseDescriptor(
+                toView(makeDescriptor(descriptors.SpliceDescriptorTag.TIME_DESCRIPTOR, [0, 0, 0, 0, 0, 0, 0, 0])),
+            );
+            const unknown = descriptors.parseDescriptor(toView(makeDescriptor(0xff, [])));
+
+            expect(avail.spliceDescriptorTag).to.equal(descriptors.SpliceDescriptorTag.AVAIL_DESCRIPTOR);
+            expect(dtmf.spliceDescriptorTag).to.equal(descriptors.SpliceDescriptorTag.DTMF_DESCRIPTOR);
+            expect(time.spliceDescriptorTag).to.equal(descriptors.SpliceDescriptorTag.TIME_DESCRIPTOR);
+            expect(unknown.spliceDescriptorTag).to.equal(0xff);
+        });
+
+        it("should parse segmentation restrictions when delivery is restricted", () => {
+            const descriptor = descriptors.parseDescriptor(
+                toView(
+                    makeDescriptor(descriptors.SpliceDescriptorTag.SEGMENTATION_DESCRIPTOR, [
+                        0x00,
+                        0x00,
+                        0x00,
+                        0x01,
+                        0x00,
+                        0x9e,
+                        descriptors.SegmentationUpidType.NOT_USED,
+                        0x00,
+                        descriptors.SegmentationTypeId.PROGRAM_START,
+                        0x01,
+                        0x01,
+                    ]),
+                ),
+            ) as descriptors.ISegmentationDescriptor;
+
+            expect(descriptor.deliveryNotRestrictedFlag).to.equal(false);
+            expect(descriptor.webDeliveryAllowedFlag).to.equal(true);
+            expect(descriptor.noRegionalBlackoutFlag).to.equal(true);
+            expect(descriptor.archiveAllowedFlag).to.equal(true);
+            expect(descriptor.deviceRestrictions).to.equal(descriptors.SegmentationMessage.RESTRICT_GROUP_2);
+        });
+
+        it("should parse component counts, durations, and subsegments", () => {
+            const descriptor = descriptors.parseDescriptor(
+                toView(
+                    makeDescriptor(descriptors.SpliceDescriptorTag.SEGMENTATION_DESCRIPTOR, [
+                        0x00,
+                        0x00,
+                        0x00,
+                        0x02,
+                        0x00,
+                        0x60,
+                        0x01,
+                        0x11,
+                        0x80,
+                        0x00,
+                        0x00,
+                        0x00,
+                        0x02,
+                        0x81,
+                        0x00,
+                        0x00,
+                        0x00,
+                        0x03,
+                        descriptors.SegmentationUpidType.USER_DEFINED,
+                        0x01,
+                        0xab,
+                        descriptors.SegmentationTypeId.DISTRIBUTOR_PLACEMENT_OPPORTUNITY_START,
+                        0x02,
+                        0x03,
+                        0x04,
+                        0x05,
+                    ]),
+                ),
+            ) as descriptors.ISegmentationDescriptor;
+
+            expect(descriptor.componentCount).to.equal(1);
+            expect(descriptor.segmentationDuration).to.equal(554050781187);
+            expect(descriptor.segmentationUpid).to.eql(Uint8Array.from([0xab]));
+            expect(descriptor.subSegmentNum).to.equal(4);
+            expect(descriptor.subSegmentsExpected).to.equal(5);
+        });
+
+        it("should log descriptor offset mismatches", () => {
+            const descriptor = descriptors.parseDescriptor(
+                toView(
+                    makeDescriptor(descriptors.SpliceDescriptorTag.SEGMENTATION_DESCRIPTOR, [
+                        0x00,
+                        0x00,
+                        0x00,
+                        0x03,
+                        0x80,
+                        0x00,
+                    ]),
+                ),
+            );
+
+            expect(descriptor.spliceDescriptorTag).to.equal(descriptors.SpliceDescriptorTag.SEGMENTATION_DESCRIPTOR);
+        });
+    });
+
+    describe("LOW LEVEL SCTE35 SECTIONS", () => {
+        it("should parse splice_null sections with legacy command length and encrypted packets", () => {
+            const spliceInfo = parseBytes(
+                scte35,
+                makeSection(SpliceCommandType.SPLICE_NULL, [], {
+                    encryptedByte: 0x82,
+                    spliceCommandLength: 0x0fff,
+                }),
+            );
+
+            expect(spliceInfo.encryptedPacket).to.equal(true);
+            expect(spliceInfo.encryptedAlgorithm).to.equal(1);
+            expect(spliceInfo.spliceCommandLength).to.equal(0);
+        });
+
+        it("should reject unsupported legacy command lengths", () => {
+            expect(() =>
+                parseBytes(
+                    scte35,
+                    makeSection(SpliceCommandType.PRIVATE_COMMAND, [], {
+                        spliceCommandLength: 0x0fff,
+                    }),
+                ),
+            ).to.throw();
+        });
+
+        it("should parse legacy time_signal without a specified pts", () => {
+            const spliceInfo = parseBytes(
+                scte35,
+                makeSection(SpliceCommandType.TIME_SIGNAL, [0x00], {
+                    spliceCommandLength: 0x0fff,
+                }),
+            );
+
+            expect(spliceInfo.spliceCommandLength).to.equal(1);
+            expect(spliceInfo.spliceCommand).to.eql({ specified: false });
+        });
+
+        it("should infer legacy splice_insert lengths for component splice commands", () => {
+            expect(() =>
+                parseBytes(
+                    scte35,
+                    makeSection(
+                        SpliceCommandType.SPLICE_INSERT,
+                        [
+                            0x00, 0x00, 0x00, 0x01, 0x00, 0x30, 0x01, 0x11, 0x00, 0x00, 0x00, 0x44, 0x00, 0x02,
+                            0x03,
+                        ],
+                        {
+                            spliceCommandLength: 0x0fff,
+                        },
+                    ),
+                ),
+            ).to.throw();
+
+            expect(() =>
+                parseBytes(
+                    scte35,
+                    makeSection(
+                        SpliceCommandType.SPLICE_INSERT,
+                        [
+                            0x00, 0x00, 0x00, 0x02, 0x00, 0x00, 0x01, 0x11, 0x00, 0x00, 0x00, 0x44, 0x00, 0x02,
+                            0x03,
+                        ],
+                        {
+                            spliceCommandLength: 0x0fff,
+                        },
+                    ),
+                ),
+            ).to.throw();
+        });
+
+        it("should parse splice_schedule commands", () => {
+            const spliceInfo = parseBytes(
+                scte35,
+                makeSection(SpliceCommandType.SPLICE_SCHEDULE, [
+                    0x02,
+                    0x00,
+                    0x00,
+                    0x00,
+                    0x01,
+                    0x80,
+                    0x00,
+                    0x00,
+                    0x00,
+                    0x02,
+                    0x00,
+                    0x40,
+                    0x00,
+                    0x00,
+                    0x00,
+                    0x09,
+                    0x00,
+                    0x01,
+                    0x02,
+                    0x03,
+                ]),
+            );
+            const schedule = spliceInfo.spliceCommand as ISpliceSchedule;
+
+            expect(schedule.spliceCount).to.equal(2);
+            expect(schedule.spliceEvents[0].spliceEventCancelIndicator).to.equal(true);
+            expect(schedule.spliceEvents[1].utcSpliceTime).to.equal(9);
+        });
+
+        it("should parse schedule component splice commands with break durations", () => {
+            const spliceInfo = parseBytes(
+                scte35,
+                makeSection(SpliceCommandType.SPLICE_SCHEDULE, [
+                    0x01,
+                    0x00,
+                    0x00,
+                    0x00,
+                    0x03,
+                    0x00,
+                    0x20,
+                    0x01,
+                    0x22,
+                    0x00,
+                    0x00,
+                    0x00,
+                    0x0a,
+                    0x81,
+                    0x00,
+                    0x00,
+                    0x00,
+                    0x04,
+                    0x00,
+                    0x05,
+                    0x06,
+                    0x07,
+                ]),
+            );
+            const schedule = spliceInfo.spliceCommand as ISpliceSchedule;
+
+            expect(schedule.spliceEvents[0].utcSpliceComponents).to.eql([{ componentTag: 0x22, utcSpliceTime: 10 }]);
+            expect(schedule.spliceEvents[0].breakDuration?.duration).to.equal(4294967300);
+        });
+
+        it("should parse private commands without payload when the identifier is zero", () => {
+            const spliceInfo = parseBytes(scte35, makeSection(SpliceCommandType.PRIVATE_COMMAND, [0, 0, 0, 0]));
+            const privateCommand = spliceInfo.spliceCommand as ISplicePrivate;
+
+            expect(privateCommand.identifier).to.equal(0);
+            expect(privateCommand.rawData).to.equal(undefined);
+        });
+
+        it("should recover from malformed descriptors and report trailing bytes", () => {
+            const spliceInfo = parseBytes(
+                scte35,
+                makeSection(SpliceCommandType.SPLICE_NULL, [], {
+                    descriptorLoop: [descriptors.SpliceDescriptorTag.SEGMENTATION_DESCRIPTOR],
+                    trailing: [0xff],
+                }),
+            );
+
+            expect(spliceInfo.descriptors).to.eql([]);
+        });
+
+        it("should report low-level splice command size mismatches", () => {
+            expect((scte35 as any).spliceSchedule(toView([0x00, 0x00]))).to.eql({ spliceCount: 0, spliceEvents: [] });
+
+            const insert = (scte35 as any).spliceInsert(
+                toView([0x00, 0x00, 0x00, 0x01, 0x80, 0xff]),
+            ) as ISpliceInsertEvent;
+            expect(insert.spliceEventCancelIndicator).to.equal(true);
+        });
+
+        it("should reject sections with incorrect section lengths", () => {
+            expect(() => parseBytes(scte35, [0xfc, 0x00, 0x01])).to.throw(
+                "Binary read error sectionLength: 1 + 3 !== data.length: 3",
             );
         });
     });

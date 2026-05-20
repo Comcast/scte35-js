@@ -1,7 +1,7 @@
 /**
  * Converts a Uint8Array(16) to it's UUID string
  */
-export const bytesToUUID = (bytes: Uint8Array): string => {
+export function bytesToUUID(bytes: Uint8Array): string {
     if (bytes.length !== 16) {
         throw new Error(`scte35-js Uint8Array uuid bad size: ${bytes.length}`);
     }
@@ -16,13 +16,13 @@ export const bytesToUUID = (bytes: Uint8Array): string => {
             return hex;
         })
         .join("");
-};
+}
 
 export const THIRTY_TWO_BIT_MULTIPLIER = Math.pow(2, 32);
 
 /**
  * shifts a single byte by 32 bits
  */
-export const shiftThirtyTwoBits = (byte: number): number => {
+export function shiftThirtyTwoBits(byte: number): number {
     return byte * THIRTY_TWO_BIT_MULTIPLIER;
-};
+}
