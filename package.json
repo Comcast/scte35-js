@@ -4,6 +4,13 @@
     "description": "",
     "main": "build/scte35.js",
     "types": "build/scte35.d.ts",
+    "files": [
+        "NOTICE",
+        "assets",
+        "build/**/*.d.ts",
+        "build/**/*.js",
+        "scripts"
+    ],
     "directories": {
         "lib": "lib",
         "test": "test"
@@ -20,7 +27,7 @@
         "test": "tsx node_modules/mocha/bin/mocha.js --watch-extensions ts,tsx __tests__/*.spec.ts",
         "build": "npm run clean && tsc",
         "postpublish": "npm run clean",
-        "prepublishOnly": "npm run build && npm run docs"
+        "prepublishOnly": "npm run build"
     },
     "publishConfig": {
         "access": "public"

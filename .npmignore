@@ -2,6 +2,7 @@ test
 ui
 docs
 jsdoc
+coverage
 .nyc_output
 .vscode
 .jshintrc
@@ -10,4 +11,3 @@ jsdoc
 .prettierignore
 .gitignore
 __tests__
-
