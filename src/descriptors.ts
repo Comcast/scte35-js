@@ -172,7 +172,7 @@ const spliceDescriptor = (view: DataView): ISpliceDescriptor => {
  * the descriptorLength if there are additional descriptors in the
  * array beyond the one being parse at the byteOffset of the view.
  */
-export const parseDescriptor = (view: DataView): ISpliceDescriptor => {
+export function parseDescriptor(view: DataView): ISpliceDescriptor {
     const descriptor = spliceDescriptor(view);
     // splice_descriptor_tag, descriptor_length, & identifier are the first 6 bytes
     let offset = 6;
@@ -260,4 +260,4 @@ export const parseDescriptor = (view: DataView): ISpliceDescriptor => {
     }
 
     return descriptor;
-};
+}

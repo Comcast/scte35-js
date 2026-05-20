@@ -1,4 +1,4 @@
-import * as descriptors from "./descriptors";
+import type * as descriptors from "./descriptors";
 
 export interface IBreakDuration {
     autoReturn: boolean;

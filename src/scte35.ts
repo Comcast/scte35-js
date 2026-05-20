@@ -31,7 +31,7 @@ import * as descriptors from "./descriptors";
 import * as util from "./util";
 import { Buffer } from "buffer/";
 
-export class SCTE35 implements ISCTE35 {
+class SCTE35 implements ISCTE35 {
     private buffer = Buffer;
 
     /***********************************************************************************
@@ -342,3 +342,5 @@ export class SCTE35 implements ISCTE35 {
         return sis;
     }
 }
+
+export { SCTE35 };
