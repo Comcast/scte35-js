@@ -4,6 +4,54 @@
 
 SCTE35 tools for parsing in CLI using NodeJS or in a "modern" browser.
 
+## Development
+
+Install the root package dependencies before working on the parser or CLI:
+
+```bash
+npm install
+```
+
+Useful root scripts:
+
+```bash
+npm test       # run the TypeScript unit tests
+npm run lint   # lint the root project
+npm run build  # clean and compile src/ into build/
+npm run docs   # regenerate TypeDoc output in jsdoc/
+npm run cover  # run tests with nyc coverage
+```
+
+The Angular demo in `ui/` has its own `package.json` and release flow. Root dependency updates and npm package releases should not require changes under `ui/` unless the demo itself is changing.
+
+## Release
+
+The npm package publishes the compiled files from `build/`, so make releases from a clean branch after validating the root project:
+
+```bash
+npm install
+npm test
+npm run lint
+npm run build
+npm run docs
+npm audit
+```
+
+Update the package version with `npm version patch`, `npm version minor`, or `npm version major`, then inspect the package before publishing:
+
+```bash
+npm pack --dry-run
+npm publish --dry-run
+```
+
+When the dry-run looks right, publish from the root directory:
+
+```bash
+npm publish
+```
+
+The publish lifecycle runs `prepublishOnly` first, which executes `npm run build && npm run docs`. After publishing, `postpublish` runs `npm run clean`, removing the generated `build/` directory from the working tree.
+
 ## Demo
 
 Visit https://comcast.github.io/scte35-js/ and paste the following in the text box and hit the `Parse` button:
