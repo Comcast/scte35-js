@@ -18,7 +18,7 @@ Useful root scripts:
 npm test       # run the TypeScript unit tests
 npm run lint   # lint the root project
 npm run build  # clean and compile src/ into build/
-npm run docs   # regenerate TypeDoc output in jsdoc/
+npm run docs   # generate GitHub Wiki Markdown in wiki/
 npm run cover  # run tests with nyc coverage
 ```
 
@@ -37,7 +37,7 @@ npm run docs
 npm audit
 ```
 
-Commit the version bump and regenerated `jsdoc/` output before merging the release branch. The publish step does not regenerate docs.
+Commit the version bump before merging the release branch. Generated documentation is not committed to this repository; `npm run docs` writes GitHub Wiki Markdown to the ignored `wiki/` directory.
 
 Update the package version with `npm version patch`, `npm version minor`, or `npm version major`, then inspect the package before publishing:
 
@@ -53,6 +53,8 @@ npm publish
 ```
 
 The publish lifecycle runs `prepublishOnly` first, which executes `npm run build`. After publishing, `postpublish` runs `npm run clean`, removing the generated `build/` directory from the working tree.
+
+After the GitHub Release is published, the `Publish Wiki Docs` workflow checks out the release tag, runs `npm run docs`, and pushes the generated Markdown to the repository Wiki.
 
 ## Demo
 
