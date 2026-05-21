@@ -2,6 +2,7 @@ test
 ui
 docs
 jsdoc
+wiki
 coverage
 .nyc_output
 .vscode

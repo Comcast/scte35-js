@@ -1,0 +1,56 @@
+name: Publish Wiki Docs
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: publish-wiki
+  cancel-in-progress: false
+
+jobs:
+  publish-wiki:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout release source
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.release.tag_name || github.ref_name }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate wiki documentation
+        run: npm run docs
+
+      - name: Publish documentation to GitHub Wiki
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          WIKI_REPO: https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.wiki.git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git clone "$WIKI_REPO" wiki-repo
+          cp -R wiki/. wiki-repo/
+
+          cd wiki-repo
+          git add .
+          if git diff --cached --quiet; then
+            echo "Wiki documentation is already up to date."
+            exit 0
+          fi
+
+          git commit -m "docs: update API wiki for ${{ github.event.release.tag_name || github.ref_name }}"
+          git push
